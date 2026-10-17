@@ -11,7 +11,10 @@ Sitedeki sesler `sounds/` klasöründeki kayıtlar ve `index.html` içinde kodla
 | `sounds/crunch.ogg` | mama dökme (kısa parçalar hızlı çalınır) | [OpenGameArt: 7 Eating Crunches](https://opengameart.org/content/7-eating-crunches) | CC0 |
 | `sounds/water.mp3` | su dökme | [OpenGameArt: 6 Short water splashes](https://opengameart.org/content/6-short-water-splashes), ezwa (yükleyen: qubodup) | CC0 |
 
-Yeme ve su içme sesleri kodla üretilir (kayıt yok).
+| `sounds/bite.ogg` | yemek yeme | [OpenGameArt: Apple Bite](https://opengameart.org/content/apple-bite), AntumDeluge | CC0 |
+| `sounds/gulp.m4a` | su içme | [OpenGameArt: Liquid, Bottle, Drink set](https://opengameart.org/content/liquid-bottle-drink-set), qubodup (kısa bölüm, m4a'ya çevrildi) | CC0 |
+
+Bu iki ses yüklenemezse kodla üretilen yedek yeme/içme sesi çalar.
 
 `meow.opus` CC BY-SA 3.0 lisanslıdır: kaynak belirtmek gerekir (yukarıda belirtildi) ve bu dosyadan türeyen ses aynı lisansla paylaşılmalıdır. Ticari kullanıma izin verir.
 
