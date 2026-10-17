@@ -12,7 +12,7 @@ Sitedeki sesler `sounds/` klasöründeki kayıtlar ve `index.html` içinde kodla
 | `sounds/water.mp3` | su dökme | [OpenGameArt: 6 Short water splashes](https://opengameart.org/content/6-short-water-splashes), ezwa (yükleyen: qubodup) | CC0 |
 
 | `sounds/bite.ogg` | yemek yeme | [OpenGameArt: Apple Bite](https://opengameart.org/content/apple-bite), AntumDeluge | CC0 |
-| `sounds/gulp.m4a` | su içme | [OpenGameArt: Liquid, Bottle, Drink set](https://opengameart.org/content/liquid-bottle-drink-set), qubodup (kısa bölüm, m4a'ya çevrildi) | CC0 |
+| `sounds/slurp.m4a` | su içme ("şlıp şlıp", kısa parçalar hızlı çalınır) | [OpenGameArt: 8 Wet squish slurp impacts](https://opengameart.org/content/8-wet-squish-slurp-impacts), Independent.nu (yükleyen: qubodup), m4a'ya çevrildi | CC0 |
 
 Bu iki ses yüklenemezse kodla üretilen yedek yeme/içme sesi çalar.
 
