@@ -1,8 +1,0 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ses testi</title>
-<style>body{font:18px system-ui;background:#0d1117;color:#e6edf3;padding:20px}button{display:block;width:100%;max-width:420px;margin:8px 0;padding:16px;font-size:18px;border-radius:12px;border:1px solid #30363d;background:#161b22;color:#e6edf3}</style></head><body>
-<h2>Miyav sesi testi</h2><p>Her butona bas, dinle. Sonra bana en güzel 2 numarayı söyle: biri "miyav" için, biri "mrrp" için.</p>
-<script>
-const files=['1.m4a','2.ogg','3.ogg','4.mp3','5.m4a','6.m4a','7.m4a','8.m4a'];
-const names=['1 (şu anki miyav)','2','3','4','5','6','7 (şu anki mrrp)','8'];
-files.forEach((f,i)=>{const b=document.createElement('button');b.textContent='▶ '+names[i];const a=new Audio('sounds/test/'+f);b.onclick=()=>{a.currentTime=0;a.play();};document.body.appendChild(b);});
-</script></body></html>

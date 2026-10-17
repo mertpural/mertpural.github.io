@@ -5,7 +5,7 @@
 <title>mert portfolio</title>
 <meta name="description" content="Mert's portfolio is coming soon. Meanwhile, pet the cat.">
 <meta name="theme-color" content="#0d1117">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png">
 <style>
 :root{--bg:#0d1117;--gold:#d4a540;--white:#e6edf3;--dim:#6e7681}
 *{box-sizing:border-box}
@@ -100,11 +100,11 @@ function playSnd(n,o){
 function unlock(){
   if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=.6;master.connect(ac.destination);}catch(e){ac=null;}}
   if(ac&&ac.state==='suspended')ac.resume();
-  if(ac&&!SND.loading){SND.loading=1;loadSnd('meow','sounds/meow.m4a');loadSnd('mrrp','sounds/mrrp.m4a');loadSnd('purr','sounds/purr.ogg');loadSnd('crunch','sounds/crunch.ogg');loadSnd('water','sounds/water.mp3');loadSnd('eat','sounds/eat.m4a');loadSnd('drink','sounds/drink.m4a');}
+  if(ac&&!SND.loading){SND.loading=1;loadSnd('meow','sounds/meow.m4a');loadSnd('mrrp','sounds/mrrp.ogg');loadSnd('purr','sounds/purr.ogg');loadSnd('crunch','sounds/crunch.ogg');loadSnd('water','sounds/water.mp3');loadSnd('eat','sounds/eat.m4a');loadSnd('drink','sounds/drink.m4a');}
 }
 function meow(kind){
   if(!ac||muted)return;
-  if(playSnd(kind==='mrrp'?'mrrp':'meow',kind==='mrrp'?{dur:.6,rate:rnd(.97,1.06),vol:.9}:{off:.3,dur:.9,rate:rnd(.96,1.03),vol:1}))return;
+  if(playSnd(kind==='mrrp'?'mrrp':'meow',kind==='mrrp'?{dur:1.1,rate:rnd(1.05,1.15),vol:.9}:{dur:1.5,rate:rnd(.96,1.03),vol:1}))return;
   const mr=kind==='mrrp',t=ac.currentTime,dur=mr?0.24:rnd(.8,.95),base=mr?rnd(190,225):rnd(235,270);
   const o=ac.createOscillator(),f=ac.createBiquadFilter(),lp=ac.createBiquadFilter(),g=ac.createGain(),l=ac.createOscillator(),lg=ac.createGain();
   o.type='sawtooth';f.type='bandpass';f.Q.value=1.8;lp.type='lowpass';lp.frequency.value=1800;
