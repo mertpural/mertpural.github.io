@@ -7,7 +7,7 @@ Sitedeki sesler `sounds/` klasöründeki kayıtlardır. Dosya yüklenemezse `ind
 | Dosya | Kullanıldığı yer | Kaynak | Lisans |
 |---|---|---|---|
 | `sounds/meow.m4a` | miyav | [Wikimedia Commons: Meow of a Siamese cat](https://commons.wikimedia.org/wiki/File:Meow_of_a_Siamese_cat_-_freemaster2.wav), freemaster2 (m4a'ya çevrildi) | CC0 |
-| `sounds/mrrp.ogg` | "mrrp" | [OpenGameArt: Kitten Mew](https://opengameart.org/content/kitten-mew) | CC0 |
+| `sounds/mrrp.ogg` | "mrrp" | [OpenGameArt: Kitten Mew](https://opengameart.org/content/kitten-mew), AntumDeluge | CC0 |
 | `sounds/purr.ogg` | mırıltı (döngü) | [OpenGameArt: Cat Purr & Meow](https://opengameart.org/content/cat-purr-meow), Kerzoven (`cat_purrsleepy_loop.ogg`) | CC0 |
 | `sounds/eat.m4a` | kedinin mama yemesi | [Wikimedia Commons: Domestic cats eating](https://commons.wikimedia.org/wiki/File:Domestic_cats_eating.ogg), Marcus Kuerten (kısa bölüm, m4a'ya çevrildi) | Kamu malı |
 | `sounds/drink.m4a` | su içme | [Wikimedia Commons: Drinking a glass of wat](https://commons.wikimedia.org/wiki/File:Drinking_a_glass_of_wat.ogg), ezwa (kısa bölüm, m4a'ya çevrildi) | Kamu malı |
