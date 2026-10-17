@@ -103,7 +103,7 @@ function playSnd(n,o){
 function unlock(){
   if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=.6;master.connect(ac.destination);}catch(e){ac=null;}}
   if(ac&&ac.state==='suspended')ac.resume();
-  if(ac&&!SND.loading){SND.loading=1;loadSnd('meow','sounds/meow.opus');loadSnd('purr','sounds/purr.ogg');loadSnd('crunch','sounds/crunch.ogg');loadSnd('water','sounds/water.mp3');loadSnd('bite','sounds/bite.ogg');loadSnd('slurp','sounds/slurp.m4a');}
+  if(ac&&!SND.loading){SND.loading=1;loadSnd('meow','sounds/meow.opus');loadSnd('purr','sounds/purr.ogg');loadSnd('crunch','sounds/crunch.ogg');loadSnd('water','sounds/water.mp3');loadSnd('bite','sounds/bite.ogg');loadSnd('lap','sounds/lap.m4a');loadSnd('munch','sounds/munch.m4a');}
 }
 function meow(kind){
   if(!ac||muted)return;
@@ -137,8 +137,19 @@ function burst(dur,f0,f1,gain,q){
   sr.connect(f);f.connect(g);g.connect(master);sr.start(t);
 }
 function crunch(){if(playSnd('bite',{dur:.32,vol:.85,rate:rnd(1.1,1.4)}))return;burst(.05,rnd(2200,3200),rnd(1200,1800),.5,2);burst(.07,320,160,.22,1);setTimeout(()=>burst(.04,rnd(1800,2600),1200,.32,2),rnd(40,70));}
-const SLURP_AT=[.08,1.2,2.32,3.34,4.18,5.96,7,7.58];
-function sip(){if(playSnd('slurp',{off:SLURP_AT[Math.floor(Math.random()*SLURP_AT.length)]-.02,dur:.34,vol:.7,rate:rnd(1.15,1.5)}))return;burst(.09,rnd(600,800),rnd(300,420),.3,3);setTimeout(()=>burst(.05,rnd(900,1200),500,.12,2),70);}
+let eatLoop=null;
+function startEatLoop(name){
+  if(eatLoop||!ac||muted||!SND[name])return false;
+  const s=ac.createBufferSource(),g=ac.createGain(),t=ac.currentTime;
+  s.buffer=SND[name];s.loop=true;s.loopStart=.25;s.loopEnd=SND[name].duration-.25;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.9,t+.15);
+  s.connect(g);g.connect(master);s.start(t,.1);eatLoop={s,g};return true;
+}
+function stopEatLoop(){
+  if(!eatLoop||!ac)return;const d=eatLoop,t=ac.currentTime;eatLoop=null;
+  d.g.gain.cancelScheduledValues(t);d.g.gain.setValueAtTime(d.g.gain.value,t);d.g.gain.linearRampToValueAtTime(0,t+.2);d.s.stop(t+.25);
+}
+function sip(){burst(.09,rnd(600,800),rnd(300,420),.3,3);setTimeout(()=>burst(.05,rnd(900,1200),500,.12,2),70);}
 function rattle(){if(SND.crunch&&!muted){for(let i=0;i<8;i++)setTimeout(()=>playSnd('crunch',{off:CRUNCH_AT[Math.floor(Math.random()*CRUNCH_AT.length)],dur:.12,vol:.35,rate:rnd(1.5,1.9)}),i*70);return;}
   for(let i=0;i<9;i++)setTimeout(()=>tick(.16,rnd(1800,3200)),i*65);}
 function pour(){
@@ -181,7 +192,7 @@ function stopPurr(){
   p.out.gain.cancelScheduledValues(t);p.out.gain.setValueAtTime(p.out.gain.value,t);p.out.gain.linearRampToValueAtTime(0,t+.35);
   p.s.stop(t+.4);if(p.lfo)p.lfo.stop(t+.4);
 }
-muteBtn.addEventListener('click',e=>{e.stopPropagation();unlock();muted=!muted;muteBtn.textContent=muted?'🔇':'🔊';if(muted)stopPurr();});
+muteBtn.addEventListener('click',e=>{e.stopPropagation();unlock();muted=!muted;muteBtn.textContent=muted?'🔇':'🔊';if(muted){stopPurr();stopEatLoop();}});
 muteBtn.addEventListener('pointerdown',e=>e.stopPropagation());
 
 /* ---------- gun/gece ---------- */
@@ -237,7 +248,7 @@ function release(){
   }
 }
 addEventListener('pointerup',release);addEventListener('pointercancel',release);
-addEventListener('blur',()=>{release();stopPurr();});
+addEventListener('blur',()=>{release();stopPurr();stopEatLoop();});
 
 function clickBox(){
   lastInteract=T;
@@ -283,6 +294,7 @@ function moveTo(tx,ty,sp,dt){
   return d-st;
 }
 function updateCat(dt){
+  if(eatLoop&&cat.state!=='eat')stopEatLoop();
   const b=bounds();cat.t+=dt;cat.heartT+=dt;
   cat.hunger=Math.min(1,cat.hunger+dt*.01);cat.thirst=Math.min(1,cat.thirst+dt*.012);
   if(cat.wantBowl&&T>cat.wantAt&&['sit','walk','run','watch','sleep','beg','box','stretch','yawn'].includes(cat.state)){
@@ -361,7 +373,7 @@ function updateCat(dt){
     case 'eat':{
       const bw=cat.bowl;cat.dir=1;
       bw.fill=Math.max(0,bw.fill-(bw.type==='food'?.11:.16)*dt);
-      cat.eatSnd-=dt;if(cat.eatSnd<0){if(bw.type==='food')crunch();else sip();cat.eatSnd=bw.type==='food'?.24:.3;}
+      cat.eatSnd-=dt;if(cat.eatSnd<0){if(!eatLoop&&!startEatLoop(bw.type==='food'?'munch':'lap')){if(bw.type==='food')crunch();else sip();}cat.eatSnd=bw.type==='food'?.24:.3;}
       if(cat.t>cat.eatDur||bw.fill<.02){
         if(bw.type==='food')cat.hunger=0;else cat.thirst=0;
         say(bw.type==='food'?'yum!':'ahh~');spawnHeart();cat.nextBeg=T+rnd(60,90);sitDown();
