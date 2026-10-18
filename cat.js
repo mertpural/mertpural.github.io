@@ -19,7 +19,7 @@ let lastInteract=0, hearts=[], prints=[], zs=[], stars=[];
 const mkStars=()=>{stars=[];for(let i=0;i<34;i++)stars.push({x:Math.random(),y:Math.random(),p:Math.random()*6,s:1});};
 function bounds(){return{minX:16,maxX:W-16,minY:30,maxY:H-6}}
 function resize(){
-  S=clamp(Math.round(Math.min(innerWidth/110,innerHeight/130)),3,6);
+  S=qp0.get('scale')?clamp(+qp0.get('scale'),1,20):clamp(Math.round(Math.min(innerWidth/110,innerHeight/130)),3,6);
   W=Math.ceil(innerWidth/S);H=Math.ceil(innerHeight/S);
   cv.width=W;cv.height=H;cv.style.width=W*S+'px';cv.style.height=H*S+'px';
   ctx.imageSmoothingEnabled=false;
@@ -247,7 +247,7 @@ let purrT=0;
 function purrFor(sec){startPurr();clearTimeout(purrT);purrT=setTimeout(stopPurr,sec*1000);}
 const petTimes=[];let annoyedUntil=0,lastGrumble=-9;
 function annoy(){
-  annoyedUntil=T+30;petTimes.length=0;say('yeter!');cat.state='startle';cat.t=0;cat.nextStartle=T+30;
+  annoyedUntil=T+15;petTimes.length=0;say('yeter!');cat.state='startle';cat.t=0;cat.nextStartle=T+15;
   setTimeout(()=>{if(['startle','sit','pet','belly','box'].includes(cat.state)){cat.exitDir=cat.x<W/2?-1:1;cat.state='leave';cat.t=0;cat.interestUntil=0;}},750);
 }
 function grumble(){if(T-lastGrumble>1.6){lastGrumble=T;say(['hmph.','yeter!','dur artık!'][Math.floor(Math.random()*3)]);}}

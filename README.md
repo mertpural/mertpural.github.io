@@ -22,7 +22,7 @@ Sitedeki sesler `sounds/` klasöründeki kayıtlar ve `index.html` içinde kodla
 
 Dosyalar: `index.html` (sayfa ve stiller), `cat.js` (kedi, sesler, gökyüzü, bayramlar, hava; ileride başka sayfalara tek satırla eklenebilir), `sw.js` + `manifest.webmanifest` (telefona uygulama olarak eklenebilir, çevrimdışı açılır), `og.png` (link paylaşım kartı), `photos/` (Tonti'nin fotoğrafları).
 
-- Kediyi 5 kez sevince (dokunma, tıklama ya da boşluk/Enter tuşu) karnını açar. 8 saniyede 14'ten fazla sevilirse kaçar ve 30 saniye boyunca sevilmez (sayaca da sayılmaz).
+- Kediyi 5 kez sevince (dokunma, tıklama ya da boşluk/Enter tuşu) karnını açar. 8 saniyede 14'ten fazla sevilirse kaçar ve 15 saniye boyunca sevilmez (sayaca da sayılmaz).
 - Gökyüzü, güneş/ay, bulutlar ve tepeler ziyaretçinin yerel saatine göre değişir. Test: adrese `?hour=7` ya da `?hour=19.3` ekleyin.
 - 23 Nisan, 19 Mayıs, 30 Ağustos, 28-29 Ekim'de dalgalanan Türk bayrakları ve flamalar çıkar. 10 Kasım'da sade bir anma günüdür: renkler soluklaşır, bayraklar yarıya iner, kedi sakin durur, hava olayları ve konfeti kapalıdır, 09:05'te bir dakikalık saygı duruşu (ekran kararır, ses kesilir). Yılbaşında kedi şapka takar ve kar yağar. Test: `?date=10-29` ya da `?date=11-10&hour=9.09`.
 - Ara sıra yağmur ya da kar yağar, kedi yağmurda kutuya saklanır (`?weather=rain` / `?weather=snow`). Geceleri ara sıra kayan yıldız geçer.
