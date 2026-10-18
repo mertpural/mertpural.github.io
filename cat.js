@@ -743,15 +743,27 @@ function drawTree(){
   R(x0-11,y0-4,5,4,'#ff5d73');R(x0-9,y0-4,1,4,'#fff3c4');R(x0-11,y0-2,5,1,'#fff3c4');
   R(x0+6,y0-3,5,3,'#5da9ff');R(x0+8,y0-3,1,3,'#ffd86b');R(x0+6,y0-2,5,1,'#ffd86b');
 }
+function drawMiniFlag(x,y,k){
+  R(x,y-1,1,1,'#6f6a5a');R(x+10,y-1,1,1,'#6f6a5a');
+  for(let i=0;i<11;i++){
+    const dy=Math.round(Math.sin(T*3.2+k*1.3+i*.55)*.7*(.4+.6*i/10)),fold=Math.sin(T*3.2+k*1.3+i*.55+.9);
+    for(let j=0;j<7;j++){
+      let c=fold>.4?'#b5000f':'#e30a17',w=fold>.4?'#d9d9d9':'#ffffff';
+      if(Math.hypot(i-3.6,j-3)<=2.4&&Math.hypot(i-4.6,j-3)>1.9)c=w;
+      if((i===7&&(j===2||j===3||j===4))||((i===6||i===8)&&j===3))c=w;
+      R(x+i,y+j+dy,1,1,c);
+    }
+  }
+}
 function drawHoliday(){
   if(!HOLIDAY)return;
   if(HOLIDAY.kind==='newyear'){drawFairyLights();return;}
-  if(HOLIDAY.kind==='mourning'){drawFlag(8,H-37,.9,12);drawFlag(Math.round(box.x-24),H-37,.9,12);return;}
-  const y0=Math.round(H*.06),cols=['#e30a17','#ffffff'];
-  const sag=x=>Math.round(3*Math.sin((x%40)/40*Math.PI));
+  if(HOLIDAY.kind==='mourning'){drawFlag(8,H-37,.9,8);drawFlag(Math.round(box.x-34),H-37,.9,8);return;}
+  const y0=Math.round(H*.06);
+  const sag=x=>Math.round(3*Math.sin((x%52)/52*Math.PI));
   for(let x=0;x<W;x++)R(x,y0+sag(x),1,1,'#c9b78e');
-  for(let x=4,k=0;x<W;x+=8,k++){const c=cols[k%cols.length],y=y0+sag(x)+1;R(x-2,y,5,1,c);R(x-1,y+1,3,1,c);R(x,y+2,1,1,c);}
-  if(HOLIDAY.kind==='national'){drawFlag(8,H-37,2,0);drawFlag(Math.round(box.x-24),H-37,2,0);}
+  for(let x=3,k=0;x<W-8;x+=13,k++)drawMiniFlag(x,y0+sag(x+5)+1,k);
+  if(HOLIDAY.kind==='national'){drawFlag(8,H-37,2,0);drawFlag(Math.round(box.x-34),H-37,2,0);}
 }
 const weather={type:'none',until:0,next:0,drops:[]};
 const forceW=qp.get('weather');let weatherInit=false;
