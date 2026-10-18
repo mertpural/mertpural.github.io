@@ -4,6 +4,7 @@ const cv=document.getElementById('c'),ctx=cv.getContext('2d');
 const qp0=new URLSearchParams(location.search);
 const bub=document.getElementById('bub'),muteBtn=document.getElementById('mute');
 let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let holKind=null;
 let S=4,W=0,H=0,T=0,last=performance.now();
 const O='#f1eeeb',D='#cdc7c2',C='#ffffff',P='#f2a1b0',K='#1b1b24',WH='#ffffff',AM='#e2a43a',AMD='#b97a1e',GR='#8a7f78';
 const rnd=(a,b)=>a+Math.random()*(b-a), clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -24,8 +25,9 @@ function resize(){
   cv.width=W;cv.height=H;cv.style.width=W*S+'px';cv.style.height=H*S+'px';
   ctx.imageSmoothingEnabled=false;
   for(const bw of bowls)bw.y=H-9;
-  bowls[0].x=Math.round(Math.max(26,W*.14));bowls[1].x=bowls[0].x+Math.round(Math.max(24,W*.13));
-  box.x=W-Math.round(Math.max(18,W*.14));box.y=H-8;
+  const ny=holKind==='newyear';
+  bowls[0].x=Math.round(Math.max(ny?38:26,W*(ny?.18:.14)));bowls[1].x=bowls[0].x+Math.round(Math.max(ny?22:24,W*.13));
+  box.x=W-Math.round(Math.max(ny?16:18,W*.14));box.y=H-8;
   const b=bounds();cat.x=clamp(cat.x,b.minX,b.maxX);cat.y=clamp(cat.y,b.minY,b.maxY);
   ball.x=clamp(ball.x,6,W-6);ball.y=clamp(ball.y,10,H-5);
 }
@@ -658,7 +660,7 @@ function draw(){
       else if(cat.state==='belly'){bellyCat();}
       else if(cat.state==='sit'||cat.state==='pet'||cat.state==='watch'||cat.state==='beg'||cat.state==='yawn'||cat.state==='startle'||cat.state==='box'){frontCat((cat.state==='pet'||cat.state==='box')&&T-cat.petLast<.6);}
       else{ctx.scale(cat.dir,1);sideCat(cat.state==='walk'||cat.state==='run'||cat.state==='toBowl'||cat.state==='toBox'||cat.state==='leave'||cat.state==='return',cat.state==='run',cat.state==='bat',cat.state==='eat'?(cat.bowl.type==='food'?1:2):cat.state==='stretch'?3:0);}
-      ctx.restore();}},{y:ball.y,f:drawBall},...bowls.map(bw=>({y:bw.y,f:()=>drawBowl(bw)})),{y:box.y-2,f:drawBoxBack},{y:box.y+.5,f:drawBoxFront}].sort((a,b)=>a.y-b.y);
+      ctx.restore();}},{y:ball.y,f:drawBall},...bowls.map(bw=>({y:bw.y,f:()=>drawBowl(bw)})),{y:box.y-2,f:drawBoxBack},{y:box.y+.5,f:drawBoxFront},...(holKind==='newyear'?[{y:H-7,f:drawTree}]:[])].sort((a,b)=>a.y-b.y);
   items.forEach(i=>i.f());
   for(const d of drops){if(d.bw.type==='food')R(Math.round(d.x),Math.round(d.y),1,1,'#a65f35');else R(Math.round(d.x),Math.round(d.y),1,2,'#4aa3df');}
   for(const h of hearts)heart(h.x,h.y,clamp(h.life,0,1));
@@ -678,6 +680,7 @@ function findHoliday(){
 }
 const HOLIDAY=findHoliday();
 const QUIET=!!HOLIDAY&&HOLIDAY.kind==='mourning';
+holKind=HOLIDAY?HOLIDAY.kind:null;resize();
 const holEl=document.getElementById('holiday');
 if(HOLIDAY){if(holEl){holEl.textContent=(HOLIDAY.kind==='national'?'🇹🇷 ':'')+HOLIDAY.full;holEl.hidden=false;}if(HOLIDAY.short)setTimeout(()=>say(HOLIDAY.short),3500);}
 if(QUIET){reduced=true;document.documentElement.classList.add('mourn');}
@@ -703,10 +706,48 @@ function drawFlag(px,py,amp,hang){
     }
   }
 }
+const LIGHTS=['#fff3c4','#9fd8ff','#ffb3d1','#b6ffd9','#ffd86b','#d9c2ff'];
+function drawFairyLights(){
+  const y0=Math.round(H*.06),sag=x=>Math.round(3*Math.sin((x%48)/48*Math.PI));
+  for(let x=0;x<W;x++)R(x,y0+sag(x),1,1,'#6f7683');
+  for(let x=3,k=0;x<W;x+=9,k++){
+    const y=y0+sag(x)+1,c=LIGHTS[k%LIGHTS.length],tw=.55+.45*Math.sin(T*2.4+k*1.7);
+    R(x,y,1,1,'#4a505c');
+    ctx.globalAlpha=.28*tw;R(x-2,y+2,5,1,c);R(x,y,1,5,c);ctx.globalAlpha=.4+.6*tw;R(x-1,y+1,3,3,c);ctx.globalAlpha=Math.min(1,tw+.2);R(x,y+1,1,1,'#ffffff');ctx.globalAlpha=1;
+  }
+}
+const TREE_LIGHTS=[[-1,6],[2,8],[-4,11],[0,12],[4,11],[-6,15],[-2,16],[3,16],[7,15],[-8,19],[-3,20],[2,19],[6,20],[9,21],[-5,22]];
+function drawTree(){
+  const x0=Math.round(Math.max(14,W*.075)),y0=H-6;
+  /* govde */
+  R(x0-1,y0-5,3,5,'#6b4423');R(x0-1,y0-5,1,5,'#8a5a30');
+  const tiers=[[0,5,1],[4,6,5],[9,7,7],[15,8,9]],top=y0-5-23;
+  for(const[dy,rows,w0]of tiers)for(let r=0;r<rows;r++){
+    const w=w0+2*r,y=top+dy+r,hx=(w-1)/2|0;
+    R(x0-hx,y,w,1,'#1f7a45');
+    R(x0-hx,y,2,1,'#2f9a58');R(x0+hx-1,y,2,1,'#175c34');
+    if(r===rows-1)R(x0-hx,y,w,1,'#175c34');
+    if(r===0&&dy>0)R(x0-1,y,3,1,'#ffffff');
+    if(r===1&&dy>0)R(x0-2,y,1,1,'#ffffff');
+  }
+  R(x0-1,top,3,2,'#ffffff');R(x0,top-1,1,1,'#ffffff');
+  /* yildiz */
+  const st=.65+.35*Math.sin(T*3);ctx.globalAlpha=st;
+  R(x0,top-7,1,7,'#ffd86b');R(x0-3,top-4,7,1,'#ffd86b');R(x0-1,top-6,3,5,'#ffe9a0');R(x0-2,top-5,5,3,'#ffe9a0');ctx.globalAlpha=1;
+  /* isiklar */
+  TREE_LIGHTS.forEach(([dx,dy],i)=>{
+    const c=LIGHTS[(i+Math.floor(T*1.6+i*.7))%LIGHTS.length],px=x0+dx,py=top+dy;
+    ctx.globalAlpha=.3;R(px-1,py-1,3,3,c);ctx.globalAlpha=1;R(px,py,1,1,c);
+  });
+  /* hediyeler */
+  R(x0-11,y0-4,5,4,'#ff5d73');R(x0-9,y0-4,1,4,'#fff3c4');R(x0-11,y0-2,5,1,'#fff3c4');
+  R(x0+6,y0-3,5,3,'#5da9ff');R(x0+8,y0-3,1,3,'#ffd86b');R(x0+6,y0-2,5,1,'#ffd86b');
+}
 function drawHoliday(){
   if(!HOLIDAY)return;
+  if(HOLIDAY.kind==='newyear'){drawFairyLights();return;}
   if(HOLIDAY.kind==='mourning'){drawFlag(8,H-37,.9,12);drawFlag(Math.round(box.x-24),H-37,.9,12);return;}
-  const y0=Math.round(H*.06),cols=HOLIDAY.kind==='national'?['#e30a17','#ffffff']:['#d93636','#3aa655','#f5c542'];
+  const y0=Math.round(H*.06),cols=['#e30a17','#ffffff'];
   const sag=x=>Math.round(3*Math.sin((x%40)/40*Math.PI));
   for(let x=0;x<W;x++)R(x,y0+sag(x),1,1,'#c9b78e');
   for(let x=4,k=0;x<W;x+=8,k++){const c=cols[k%cols.length],y=y0+sag(x)+1;R(x-2,y,5,1,c);R(x-1,y+1,3,1,c);R(x,y+2,1,1,c);}
@@ -721,7 +762,7 @@ function setWeather(t,dur){
 }
 function updateWeather(dt){
   if(QUIET)return;
-  if(!weatherInit){weatherInit=true;weather.next=T+rnd(90,200);if(forceW)setWeather(forceW,1e6);}
+  if(!weatherInit){weatherInit=true;weather.next=T+rnd(90,200);if(forceW)setWeather(forceW,1e6);else if(holKind==='newyear')setWeather('snow',1e6);}
   if(weather.type==='none'){
     if(T>weather.next&&!reduced){const t=todayYMD(),winter=t.m===12||t.m<=2,ny=HOLIDAY&&HOLIDAY.kind==='newyear';
       if(ny||winter&&Math.random()<.7)setWeather('snow',rnd(30,50));else if(!winter)setWeather('rain',rnd(25,40));else setWeather('rain',rnd(25,40));}
