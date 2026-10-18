@@ -79,7 +79,8 @@ function resize(){
   cv.width=W;cv.height=H;cv.style.width=W*S+'px';cv.style.height=H*S+'px';
   ctx.imageSmoothingEnabled=false;
   for(const bw of bowls)bw.y=H-9;
-  box.x=W-30;box.y=H-8;
+  bowls[0].x=Math.round(Math.max(26,W*.14));bowls[1].x=bowls[0].x+Math.round(Math.max(24,W*.13));
+  box.x=W-Math.round(Math.max(18,W*.14));box.y=H-8;
   const b=bounds();cat.x=clamp(cat.x,b.minX,b.maxX);cat.y=clamp(cat.y,b.minY,b.maxY);
   ball.x=clamp(ball.x,6,W-6);ball.y=clamp(ball.y,10,H-5);
 }
@@ -709,6 +710,7 @@ function frame(now){
 requestAnimationFrame(frame);
 /* acilista kedi bir kere yumagi oynasin, sayfa canli dursun */
 setTimeout(()=>{if(T-lastInteract>2&&!reduced)cat.interestUntil=T+7;},2800);
+setTimeout(()=>{const hn=document.getElementById('hint');hn.style.transition='opacity 1.2s';hn.style.opacity=0;},9000);
 window.catDebug=()=>({cat,ball,S,W,H});
 })();
 </script>
