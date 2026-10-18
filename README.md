@@ -26,6 +26,7 @@ Dosyalar: `index.html` (sayfa ve stiller), `cat.js` (kedi, sesler, gökyüzü, b
 - Gökyüzü, güneş/ay, bulutlar ve tepeler ziyaretçinin yerel saatine göre değişir. Test: adrese `?hour=7` ya da `?hour=19.3` ekleyin.
 - Milli bayramlarda (23 Nisan, 19 Mayıs, 15 Temmuz, 30 Ağustos, 28-29 Ekim) Türk bayrakları ve flamalar çıkar. Ramazan ve Kurban bayramı tarihleri 2027-2030 için koddadır (±1 gün sapabilir), yılbaşında kedi şapka takar ve kar yağar. Test: `?date=10-29`.
 - Ara sıra yağmur ya da kar yağar, kedi yağmurda kutuya saklanır (`?weather=rain` / `?weather=snow`). Geceleri ara sıra kayan yıldız geçer.
+- Sağ üstteki 📷 düğmesi (ya da kedi kutudayken kutuya dokunmak) Tonti'nin fotoğraflarını polaroid olarak açar; fotoğrafa dokunarak sıradakine geçilir (`photos/`). Test: `?photo=2`.
 - Ortak sevgi sayacı 100'ün katlarına ulaşınca konfeti yağar.
 
 ## Ortak sevgi sayacı

@@ -45,12 +45,21 @@ h1 .at{color:#8b949e}
 #bub{position:fixed;z-index:3;transform:translate(-50%,-100%);background:#161b22;border:1px solid #30363d;color:var(--white);
  padding:3px 10px;border-radius:12px;font-size:13px;opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap}
 #bub.on{opacity:1}
-#mute{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:4;background:#161b22;border:1px solid #30363d;color:var(--white);
- border-radius:10px;padding:6px 10px;font:inherit;font-size:14px;cursor:pointer}
+#tools{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:4;display:flex;gap:8px}
+#mute,#cam{background:#161b22;border:1px solid #30363d;color:var(--white);border-radius:10px;padding:6px 10px;font:inherit;font-size:14px;cursor:pointer}
+#cam:hover{border-color:var(--gold)}
 #mute:hover{border-color:var(--gold)}
 #cnt{position:fixed;top:calc(12px + env(safe-area-inset-top));left:12px;z-index:4;background:#161b22;border:1px solid #30363d;color:#ff8fb1;border-radius:10px;padding:6px 10px;font-size:14px;pointer-events:none}
 @media (max-width:640px),(max-height:520px){.hint{bottom:auto;top:calc(80px + env(safe-area-inset-top));padding:0 20px;font-size:11px;line-height:1.5}}
-@media (pointer:coarse){#mute{padding:10px 14px;font-size:18px}#cnt{padding:10px 14px;font-size:16px}.links{gap:26px}.links a{padding:10px 4px}}
+@media (pointer:coarse){#mute,#cam{padding:10px 14px;font-size:18px}#cnt{padding:10px 14px;font-size:16px}.links{gap:26px}.links a{padding:10px 4px}}
+#pol{position:fixed;inset:0;z-index:10;background:rgba(5,8,14,.74);display:flex;align-items:center;justify-content:center;padding:20px;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+#pol[hidden]{display:none}
+#polx{position:absolute;top:calc(14px + env(safe-area-inset-top));right:14px;background:#161b22;border:1px solid #30363d;color:#e6edf3;border-radius:10px;padding:8px 12px;font:inherit;font-size:16px;cursor:pointer}
+.polcard{background:#fbf8f1;padding:14px 14px 10px;border-radius:4px;box-shadow:0 14px 40px rgba(0,0,0,.55);transform:rotate(-3deg);width:min(86vw,60vh,420px);animation:pop .4s cubic-bezier(.2,1.4,.4,1);cursor:pointer;text-shadow:none}
+.polcard img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#ddd5c6}
+.polcap{margin:10px 0 2px;text-align:center;color:#3a352c;font-size:18px;letter-spacing:.5px}
+.polcap small{color:#8b8374;font-size:12px}
+@keyframes pop{from{transform:rotate(-12deg) scale(.6) translateY(40px);opacity:0}to{transform:rotate(-3deg);opacity:1}}
 .fade{opacity:0;animation:f .8s forwards}
 @keyframes f{to{opacity:1}}
 </style></head>
@@ -69,7 +78,8 @@ h1 .at{color:#8b949e}
 <canvas id="c"></canvas>
 <div id="bub"></div>
 <div id="cnt" aria-label="pets">♥ 0</div>
-<button id="mute" aria-label="sound on/off" title="sound">🔊</button>
+<div id="tools"><button id="cam" aria-label="photos of Tonti" title="photos">📷</button><button id="mute" aria-label="sound on/off" title="sound">🔊</button></div>
+<div id="pol" hidden role="dialog" aria-label="Tonti"><button id="polx" aria-label="close">✕</button><div class="polcard"><img id="polimg" alt="Tonti" decoding="async"><p class="polcap"><span>Tonti ♥</span> <small id="poln"></small></p></div></div>
 <noscript><p style="position:fixed;bottom:12px;width:100%;text-align:center;color:#6e7681">enable JavaScript to meet the cat 🐱</p></noscript>
 <script src="cat.js"></script>
 </body></html>

@@ -1,6 +1,7 @@
 (()=>{
 "use strict";
 const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+const qp0=new URLSearchParams(location.search);
 const bub=document.getElementById('bub'),muteBtn=document.getElementById('mute');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let S=4,W=0,H=0,T=0,last=performance.now();
@@ -139,6 +140,17 @@ function stopPurr(){
 }
 muteBtn.addEventListener('click',e=>{e.stopPropagation();unlock();muted=!muted;muteBtn.textContent=muted?'🔇':'🔊';if(muted){stopPurr();stopEatLoop();}});
 muteBtn.addEventListener('pointerdown',e=>e.stopPropagation());
+/* ---------- Tonti fotograflari (polaroid) ---------- */
+const PHOTOS=[['photos/tonti-1.jpg','32% 22%'],['photos/tonti-2.jpg','50% 50%'],['photos/tonti-3.jpg','62% 32%']];
+const polEl=document.getElementById('pol'),polImg=document.getElementById('polimg'),polN=document.getElementById('poln');let polI=0;
+function showPhoto(){const p=PHOTOS[polI];polImg.src=p[0];polImg.style.objectPosition=p[1];polN.textContent=(polI+1)+'/'+PHOTOS.length;}
+function openPolaroid(){polEl.hidden=false;showPhoto();}
+function closePolaroid(){polEl.hidden=true;}
+document.getElementById('cam').addEventListener('click',e=>{e.stopPropagation();unlock();openPolaroid();});
+document.getElementById('cam').addEventListener('pointerdown',e=>e.stopPropagation());
+polEl.addEventListener('click',e=>{if(e.target===polEl||e.target.id==='polx')closePolaroid();else{polI=(polI+1)%PHOTOS.length;const c=polEl.querySelector('.polcard');c.style.animation='none';void c.offsetWidth;c.style.animation='';showPhoto();}});
+addEventListener('keydown',e=>{if(polEl.hidden)return;if(e.key==='Escape')closePolaroid();else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){polI=(polI+(e.key==='ArrowRight'?1:PHOTOS.length-1))%PHOTOS.length;showPhoto();}});
+if(qp0.get('photo'))setTimeout(()=>{polI=Math.max(0,Math.min(PHOTOS.length-1,(+qp0.get('photo'))-1));openPolaroid();},600);
 addEventListener('touchend',unlock,{passive:true});addEventListener('click',unlock);
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopPurr();stopEatLoop();}});
 
@@ -193,7 +205,7 @@ const hitCat=p=>{const h=cat.state==='belly'?[-14,19,-18,2]:cat.state==='sleep'?
   return p.x>=cat.x+h[0]&&p.x<=cat.x+h[1]&&p.y>=cat.y+h[2]&&p.y<=cat.y+h[3];};
 let samples=[],dragOff={x:0,y:0};
 addEventListener('pointerdown',e=>{
-  if(e.target.closest&&e.target.closest('a,button'))return;
+  if(e.target.closest&&e.target.closest('a,button,#pol'))return;
   unlock();const p=toL(e);ptr.x=p.x;ptr.y=p.y;ptr.down=true;lastInteract=T;
   document.getElementById('hint').style.opacity=0;
   if(hitBall(p)){
@@ -215,7 +227,7 @@ addEventListener('pointermove',e=>{
 });
 addEventListener('keydown',e=>{
   if(e.repeat)return;const tg=document.activeElement&&document.activeElement.tagName;
-  if((e.code==='Space'||e.key==='Enter')&&tg!=='A'&&tg!=='BUTTON'){e.preventDefault();unlock();if(!['away','leave','return'].includes(cat.state))startPet();}
+  if((e.code==='Space'||e.key==='Enter')&&tg!=='A'&&tg!=='BUTTON'&&polEl.hidden){e.preventDefault();unlock();if(!['away','leave','return'].includes(cat.state))startPet();}
 });
 function release(){
   ptr.down=false;
@@ -231,7 +243,7 @@ addEventListener('blur',()=>{release();stopPurr();stopEatLoop();});
 
 function clickBox(){
   lastInteract=T;
-  if(cat.state==='box'){cat.state='sit';cat.t=0;cat.wait=rnd(2,4);cat.x=box.x-17;cat.y=box.y;return;}
+  if(cat.state==='box'){openPolaroid();return;}
   if(['sit','walk','run','watch','sleep','beg','stretch','yawn'].includes(cat.state)){cat.state='toBox';cat.t=0;cat.interestUntil=0;say('?');}
 }
 function fillBowl(bw){
