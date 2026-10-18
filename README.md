@@ -12,7 +12,6 @@ Sitedeki sesler `sounds/` klasöründeki kayıtlar ve `index.html` içinde kodla
 | `sounds/purr.m4a` | mırıltı (döngü) | [Wikimedia Commons: Purring cat.oga](https://commons.wikimedia.org/wiki/File:Purring_cat.oga), Mysid | Kamu malı |
 | `sounds/munch.m4a` | yemek yeme (kedi yerken döngüyle çalar) | [Pixabay: Cat Eating Dry Food](https://pixabay.com/sound-effects/household-cat-eating-dry-food-133130/), soundsforyou (kısa bölüm, m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
 | `sounds/lap.m4a` | su içme (kedi su içerken döngüyle çalar) | [Pixabay: Cat Drinking 6 FX](https://pixabay.com/sound-effects/nature-cat-drinking-6-fx-306169/), SOUND_GARAGE (kısa bölüm, m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
-| `sounds/hiss.m4a` | tıslama (kedi ürkünce ya da çok sevilince) | [Pixabay: Angry Cat Hissing and Growling](https://pixabay.com/sound-effects/nature-angry-cat-hissing-and-growling-331460/), arunangshubanerjee (kısa bölüm, m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
 | `sounds/crunch.m4a` | mama dökme (kısa parçalar hızlı çalınır) | [OpenGameArt: 7 Eating Crunches](https://opengameart.org/content/7-eating-crunches) | CC0 |
 | `sounds/water.mp3` | su dökme | [OpenGameArt: 6 Short water splashes](https://opengameart.org/content/6-short-water-splashes), ezwa (yükleyen: qubodup) | CC0 |
 | `sounds/bite.m4a` | yemek yeme yedeği | [OpenGameArt: Apple Bite](https://opengameart.org/content/apple-bite), AntumDeluge | CC0 |
@@ -23,7 +22,7 @@ Sitedeki sesler `sounds/` klasöründeki kayıtlar ve `index.html` içinde kodla
 
 Dosyalar: `index.html` (sayfa ve stiller), `cat.js` (kedi, sesler, gökyüzü, bayramlar, hava; ileride başka sayfalara tek satırla eklenebilir), `sw.js` + `manifest.webmanifest` (telefona uygulama olarak eklenebilir, çevrimdışı açılır), `og.png` (link paylaşım kartı), `photos/` (Tonti'nin fotoğrafları).
 
-- Kediyi 5 kez sevince (dokunma, tıklama ya da boşluk/Enter tuşu) karnını açar. 8 saniyede 14'ten fazla sevilirse tısladıktan sonra kaçar ve 30 saniye boyunca sevilmez (sayaca da sayılmaz).
+- Kediyi 5 kez sevince (dokunma, tıklama ya da boşluk/Enter tuşu) karnını açar. 8 saniyede 14'ten fazla sevilirse kaçar ve 30 saniye boyunca sevilmez (sayaca da sayılmaz).
 - Gökyüzü, güneş/ay, bulutlar ve tepeler ziyaretçinin yerel saatine göre değişir. Test: adrese `?hour=7` ya da `?hour=19.3` ekleyin.
 - 23 Nisan, 19 Mayıs, 30 Ağustos, 28-29 Ekim'de dalgalanan Türk bayrakları ve flamalar çıkar. 10 Kasım'da sade bir anma günüdür: renkler soluklaşır, bayraklar yarıya iner, kedi sakin durur, hava olayları ve konfeti kapalıdır, 09:05'te bir dakikalık saygı duruşu (ekran kararır, ses kesilir). Yılbaşında kedi şapka takar ve kar yağar. Test: `?date=10-29` ya da `?date=11-10&hour=9.09`.
 - Ara sıra yağmur ya da kar yağar, kedi yağmurda kutuya saklanır (`?weather=rain` / `?weather=snow`). Geceleri ara sıra kayan yıldız geçer.

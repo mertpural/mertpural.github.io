@@ -49,7 +49,7 @@ function unlock(){
   if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=.6;master.connect(ac.destination);}catch(e){ac=null;}}
   if(ac&&ac.state==='suspended')ac.resume();
   if(ac&&!SND.silent){SND.silent=1;try{const sb=ac.createBuffer(1,1,22050),ss=ac.createBufferSource();ss.buffer=sb;ss.connect(ac.destination);ss.start(0);}catch(e){}}
-  if(ac&&!SND.loading){SND.loading=1;loadSnd('meow','sounds/meow.m4a');loadSnd('mrrp','sounds/mrrp.m4a');loadSnd('meowOld','sounds/meow-old.m4a');loadSnd('purr','sounds/purr.m4a');loadSnd('crunch','sounds/crunch.m4a');loadSnd('water','sounds/water.mp3');loadSnd('hiss','sounds/hiss.m4a');loadSnd('bite','sounds/bite.m4a');loadSnd('lap','sounds/lap.m4a');loadSnd('munch','sounds/munch.m4a');}
+  if(ac&&!SND.loading){SND.loading=1;loadSnd('meow','sounds/meow.m4a');loadSnd('mrrp','sounds/mrrp.m4a');loadSnd('meowOld','sounds/meow-old.m4a');loadSnd('purr','sounds/purr.m4a');loadSnd('crunch','sounds/crunch.m4a');loadSnd('water','sounds/water.mp3');loadSnd('bite','sounds/bite.m4a');loadSnd('lap','sounds/lap.m4a');loadSnd('munch','sounds/munch.m4a');}
 }
 function meow(kind){
   if(!ac||muted)return;
@@ -123,16 +123,6 @@ function startPurr(){
   out.gain.setValueAtTime(0,t);out.gain.linearRampToValueAtTime(1.6,t+.3);
   s.connect(bp);bp.connect(am);am.connect(out);out.connect(master);s.start(t);lfo.start(t);
   purr={s,lfo,out};
-}
-function hiss(){
-  if(!ac||muted)return;
-  if(playSnd('hiss',{vol:.9,rate:rnd(.95,1.05)}))return;
-  const t=ac.currentTime,len=Math.floor(ac.sampleRate*.55),b=ac.createBuffer(1,len,ac.sampleRate),d=b.getChannelData(0);
-  for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
-  const s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();
-  s.buffer=b;f.type='highpass';f.frequency.value=3500;
-  g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.35,t+.08);g.gain.linearRampToValueAtTime(.0001,t+.5);
-  s.connect(f);f.connect(g);g.connect(master);s.start(t);
 }
 function stopPurr(){
   if(!purr||!ac)return;const p=purr,t=ac.currentTime;purr=null;
@@ -257,10 +247,10 @@ let purrT=0;
 function purrFor(sec){startPurr();clearTimeout(purrT);purrT=setTimeout(stopPurr,sec*1000);}
 const petTimes=[];let annoyedUntil=0,lastGrumble=-9;
 function annoy(){
-  annoyedUntil=T+30;petTimes.length=0;hiss();say('hsss! yeter!');cat.state='startle';cat.t=0;cat.nextStartle=T+30;
+  annoyedUntil=T+30;petTimes.length=0;say('yeter!');cat.state='startle';cat.t=0;cat.nextStartle=T+30;
   setTimeout(()=>{if(['startle','sit','pet','belly','box'].includes(cat.state)){cat.exitDir=cat.x<W/2?-1:1;cat.state='leave';cat.t=0;cat.interestUntil=0;}},750);
 }
-function grumble(){if(T-lastGrumble>1.6){lastGrumble=T;hiss();say(['hsss!','hmph.','yeter!'][Math.floor(Math.random()*3)]);}}
+function grumble(){if(T-lastGrumble>1.6){lastGrumble=T;say(['hmph.','yeter!','dur artık!'][Math.floor(Math.random()*3)]);}}
 function startPet(){
   if(silence)return;
   if(T<annoyedUntil){grumble();return;}
@@ -305,7 +295,7 @@ function updateCat(dt){
     cat.bowl=cat.wantBowl;cat.wantBowl=null;cat.state='toBowl';cat.t=0;cat.interestUntil=0;
   }
   if(!['pet','belly','box','leave','away','return','startle','sleep','toBox'].includes(cat.state)&&T>cat.nextStartle&&!ball.held){
-    if(Math.hypot(ball.vx,ball.vy)>135&&Math.hypot(ball.x-cat.x,ball.y-cat.y)<30){cat.state='startle';cat.t=0;cat.nextStartle=T+8;cat.dir=ball.x>cat.x?-1:1;hiss();say('!');}
+    if(Math.hypot(ball.vx,ball.vy)>135&&Math.hypot(ball.x-cat.x,ball.y-cat.y)<30){cat.state='startle';cat.t=0;cat.nextStartle=T+8;cat.dir=ball.x>cat.x?-1:1;say('!');}
   }
   if(cat.state!=='pet'){/* goz kirpma */cat.nextBlink-=dt;if(cat.nextBlink<0){cat.blink=.13;cat.nextBlink=rnd(2,5);}}
   if(cat.blink>0)cat.blink-=dt;
