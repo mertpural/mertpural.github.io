@@ -664,7 +664,7 @@ function draw(){
 }
 /* ---------- bayramlar, hava, kayan yildiz, konfeti ---------- */
 const qp=new URLSearchParams(location.search);
-function todayYMD(){const q=qp.get('date'),m=q&&q.match(/^(\d{1,2})-(\d{1,2})$/);if(m)return{y:new Date().getFullYear(),m:+m[1],d:+m[2]};const n=new Date();return{y:n.getFullYear(),m:n.getMonth()+1,d:n.getDate()};}
+function todayYMD(){const q=qp.get('date'),m=q&&q.match(/^(?:(\d{4})-)?(\d{1,2})-(\d{1,2})$/);if(m)return{y:m[1]?+m[1]:new Date().getFullYear(),m:+m[2],d:+m[3]};const n=new Date();return{y:n.getFullYear(),m:n.getMonth()+1,d:n.getDate()};}
 const NATIONAL=[[4,23,'23 Nisan Ulusal Egemenlik ve Çocuk Bayramı kutlu olsun!','23 Nisan kutlu olsun!'],[5,19,"19 Mayıs Atatürk'ü Anma, Gençlik ve Spor Bayramı kutlu olsun!",'19 Mayıs kutlu olsun!'],[7,15,'15 Temmuz Demokrasi ve Milli Birlik Günü','15 Temmuz'],[8,30,'30 Ağustos Zafer Bayramı kutlu olsun!','30 Ağustos kutlu olsun!'],[10,28,'Cumhuriyet Bayramı arifesi, yarın 29 Ekim!','yarın 29 Ekim!'],[10,29,'29 Ekim Cumhuriyet Bayramı kutlu olsun!','29 Ekim kutlu olsun!']];
 const RELIGIOUS=[[2027,3,9,3,'Ramazan Bayramınız kutlu olsun!'],[2027,5,16,4,'Kurban Bayramınız kutlu olsun!'],[2028,2,26,3,'Ramazan Bayramınız kutlu olsun!'],[2028,5,5,4,'Kurban Bayramınız kutlu olsun!'],[2029,2,14,3,'Ramazan Bayramınız kutlu olsun!'],[2029,4,24,4,'Kurban Bayramınız kutlu olsun!'],[2030,2,4,3,'Ramazan Bayramınız kutlu olsun!'],[2030,4,13,4,'Kurban Bayramınız kutlu olsun!']];
 function findHoliday(){
