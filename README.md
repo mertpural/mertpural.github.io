@@ -20,10 +20,14 @@ Sitedeki sesler `sounds/` klasöründeki kayıtlar ve `index.html` içinde kodla
 
 ## Kedi
 
-Kediyi 5 kez sevince karnını açar. Gökyüzü, güneş/ay, bulutlar ve tepeler ziyaretçinin tarayıcısındaki yerel saate göre değişir (gece lacivert ve yıldızlı, gündüz mavi gökyüzü ve bulutlu, gün doğumu ve batımı turuncu). Test için adrese `?hour=7` gibi bir saat eklenebilir (ör. `?hour=19.3`). Sekme ikonu (`favicon.svg`, `favicon.png`) pikselli kedi yüzüdür.
+Dosyalar: `index.html` (sayfa ve stiller), `cat.js` (kedi, sesler, gökyüzü, bayramlar, hava; ileride başka sayfalara tek satırla eklenebilir), `sw.js` + `manifest.webmanifest` (telefona uygulama olarak eklenebilir, çevrimdışı açılır), `og.png` (link paylaşım kartı).
 
-Tüm ses dosyaları iPhone/Safari dahil her cihazda çalsın diye m4a (AAC) ve mp3 formatındadır; `purr`, `crunch`, `bite` ve `meow-old` kayıtları orijinalden m4a'ya çevrilmiştir.
+- Kediyi 5 kez sevince (dokunma, tıklama ya da boşluk/Enter tuşu) karnını açar.
+- Gökyüzü, güneş/ay, bulutlar ve tepeler ziyaretçinin yerel saatine göre değişir. Test: adrese `?hour=7` ya da `?hour=19.3` ekleyin.
+- Milli bayramlarda (23 Nisan, 19 Mayıs, 15 Temmuz, 30 Ağustos, 28-29 Ekim) Türk bayrakları ve flamalar çıkar. Ramazan ve Kurban bayramı tarihleri 2027-2030 için koddadır (±1 gün sapabilir), yılbaşında kedi şapka takar ve kar yağar. Test: `?date=10-29`.
+- Ara sıra yağmur ya da kar yağar, kedi yağmurda kutuya saklanır (`?weather=rain` / `?weather=snow`). Geceleri ara sıra kayan yıldız geçer.
+- Ortak sevgi sayacı 100'ün katlarına ulaşınca konfeti yağar.
 
 ## Ortak sevgi sayacı
 
-Sağ üstteki ♥ sayacı herkesin sevmelerinin toplamıdır. Sayaç ücretsiz [Abacus](https://jasoncameron.dev/abacus/) servisinde (`piercies3sc-cat/hearts`) tutulur; servis ulaşılamazsa tarayıcıda saklanan kişisel sayı gösterilir. Anahtarsız herkese açık bir sayaç olduğu için biri adresi elle çağırarak sayıyı artırabilir.
+Sağ üstteki ♥ sayacı herkesin sevmelerinin toplamıdır. Sayaç ücretsiz [Abacus](https://jasoncameron.dev/abacus/) servisinde (`piercies3sc-cat/hearts`) tutulur; servis ulaşılamazsa tarayıcıda saklanan kişisel sayı gösterilir. Anahtarsız herkese açık bir sayaç olduğu için biri adresi elle çağırarak sayıyı artırabilir. Site büyüyünce kendi sunucuya (ör. Supabase) taşınabilir.
