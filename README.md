@@ -20,4 +20,4 @@ Sitedeki sesler `sounds/` klasöründeki kayıtlar ve `index.html` içinde kodla
 
 ## Kedi
 
-Kediyi 5 kez sevince karnını açar. Arka plan ve güneş/ay, ziyaretçinin tarayıcısındaki yerel saate göre değişir. Sekme ikonu (`favicon.svg`, `favicon.png`) pikselli kedi yüzüdür.
+Kediyi 5 kez sevince karnını açar. Gökyüzü, güneş/ay, bulutlar ve tepeler ziyaretçinin tarayıcısındaki yerel saate göre değişir (gece lacivert ve yıldızlı, gündüz mavi gökyüzü ve bulutlu, gün doğumu ve batımı turuncu). Test için adrese `?hour=7` gibi bir saat eklenebilir (ör. `?hour=19.3`). Sekme ikonu (`favicon.svg`, `favicon.png`) pikselli kedi yüzüdür.
