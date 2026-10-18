@@ -8,9 +8,9 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" type="image/png">
 <style>
-:root{--bg:#0d1117;--gold:#d4a540;--white:#e6edf3;--dim:#6e7681;--hint:#57606a;--ink:#e6edf3;--sky-top:#070b16;--sky-bot:#101a33;--tsh:none}
+:root{--bg:#0d1117;--gold:#d4a540;--white:#e6edf3;--dim:#aab4c2;--hint:#aab4c2;--ink:#e6edf3;--sky-top:#070b16;--sky-bot:#101a33;--tsh:none}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;overflow:hidden;background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky-bot) 100%);color:var(--white);text-shadow:var(--tsh);
+html,body{margin:0;height:100%;min-height:100dvh;overflow:hidden;background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky-bot) 100%);color:var(--white);text-shadow:var(--tsh);
  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono","Courier New",monospace;touch-action:none;
  -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 main{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;pointer-events:none}
@@ -32,6 +32,8 @@ h1 .at{color:#8b949e}
  border-radius:10px;padding:6px 10px;font:inherit;font-size:14px;cursor:pointer}
 #mute:hover{border-color:var(--gold)}
 #cnt{position:fixed;top:calc(12px + env(safe-area-inset-top));left:12px;z-index:4;background:#161b22;border:1px solid #30363d;color:#ff8fb1;border-radius:10px;padding:6px 10px;font-size:14px;pointer-events:none}
+@media (max-width:640px),(max-height:520px){.hint{bottom:auto;top:calc(62px + env(safe-area-inset-top));padding:0 20px;font-size:11px;line-height:1.5}}
+@media (pointer:coarse){#mute{padding:10px 14px;font-size:18px}#cnt{padding:10px 14px;font-size:16px}.links{gap:26px}.links a{padding:10px 4px}}
 .fade{opacity:0;animation:f .8s forwards}
 @keyframes f{to{opacity:1}}
 </style></head>
@@ -72,7 +74,7 @@ let lastInteract=0, hearts=[], prints=[], zs=[], stars=[];
 const mkStars=()=>{stars=[];for(let i=0;i<34;i++)stars.push({x:Math.random(),y:Math.random(),p:Math.random()*6,s:1});};
 function bounds(){return{minX:16,maxX:W-16,minY:30,maxY:H-6}}
 function resize(){
-  S=clamp(Math.round(innerWidth/110),3,6);
+  S=clamp(Math.round(Math.min(innerWidth/110,innerHeight/130)),3,6);
   W=Math.ceil(innerWidth/S);H=Math.ceil(innerHeight/S);
   cv.width=W;cv.height=H;cv.style.width=W*S+'px';cv.style.height=H*S+'px';
   ctx.imageSmoothingEnabled=false;
@@ -100,7 +102,8 @@ function playSnd(n,o){
 function unlock(){
   if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=.6;master.connect(ac.destination);}catch(e){ac=null;}}
   if(ac&&ac.state==='suspended')ac.resume();
-  if(ac&&!SND.loading){SND.loading=1;loadSnd('meow','sounds/meow.m4a');loadSnd('mrrp','sounds/mrrp.m4a');loadSnd('meowOld','sounds/meow-old.opus');loadSnd('purr','sounds/purr.ogg');loadSnd('crunch','sounds/crunch.ogg');loadSnd('water','sounds/water.mp3');loadSnd('bite','sounds/bite.ogg');loadSnd('lap','sounds/lap.m4a');loadSnd('munch','sounds/munch.m4a');}
+  if(ac&&!SND.silent){SND.silent=1;try{const sb=ac.createBuffer(1,1,22050),ss=ac.createBufferSource();ss.buffer=sb;ss.connect(ac.destination);ss.start(0);}catch(e){}}
+  if(ac&&!SND.loading){SND.loading=1;loadSnd('meow','sounds/meow.m4a');loadSnd('mrrp','sounds/mrrp.m4a');loadSnd('meowOld','sounds/meow-old.m4a');loadSnd('purr','sounds/purr.m4a');loadSnd('crunch','sounds/crunch.m4a');loadSnd('water','sounds/water.mp3');loadSnd('bite','sounds/bite.m4a');loadSnd('lap','sounds/lap.m4a');loadSnd('munch','sounds/munch.m4a');}
 }
 function meow(kind){
   if(!ac||muted)return;
@@ -191,6 +194,8 @@ function stopPurr(){
 }
 muteBtn.addEventListener('click',e=>{e.stopPropagation();unlock();muted=!muted;muteBtn.textContent=muted?'🔇':'🔊';if(muted){stopPurr();stopEatLoop();}});
 muteBtn.addEventListener('pointerdown',e=>e.stopPropagation());
+addEventListener('touchend',unlock,{passive:true});addEventListener('click',unlock);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopPurr();stopEatLoop();}});
 
 /* ---------- gun/gece ---------- */
 let night=false,hourF=12,lightK=0,warmG=0;
@@ -205,16 +210,28 @@ function setMode(){
   lightK=a[3]+(b[3]-a[3])*t;night=lightK<.15;
   warmG=Math.max(0,1-Math.abs(hourF-6.3)/1.6,1-Math.abs(hourF-19.2)/1.8);
   const r=document.documentElement.style;
+  const dk=lightK>.6;
   r.setProperty('--sky-top',top);r.setProperty('--sky-bot',bot);
-  r.setProperty('--ink',mixC('#e6edf3','#0e2748',lightK));r.setProperty('--gold',mixC('#d4a540','#ffcf4a',lightK));r.setProperty('--dim',mixC('#6e7681','#12305c',lightK));r.setProperty('--hint',mixC('#57606a','#12305c',lightK));
-  r.setProperty('--tsh',lightK>.25?'0 2px 0 rgba(18,48,92,'+(.55*lightK).toFixed(2)+')':'none');
+  r.setProperty('--ink',dk?'#0e2748':'#e6edf3');r.setProperty('--gold',dk?'#ffcf4a':'#d4a540');
+  r.setProperty('--dim',dk?'#12305c':'#aab4c2');r.setProperty('--hint',dk?'#12305c':'#aab4c2');
+  r.setProperty('--tsh',dk?'0 2px 0 rgba(18,48,92,.5)':'none');
 }
 setMode();setInterval(setMode,30000);
 /* ---------- sevme sayaci ---------- */
-const cntEl=document.getElementById('cnt');let pets=0;
+const cntEl=document.getElementById('cnt');let pets=0,total=null;
+const CNT='https://abacus.jasoncameron.dev',CNS='piercies3sc-cat',CKEY='hearts';
 try{pets=parseInt(localStorage.getItem('tontiPets'),10)||0;}catch(e){}
-cntEl.textContent='♥ '+pets;
-function bump(){pets++;cntEl.textContent='♥ '+pets;try{localStorage.setItem('tontiPets',pets);}catch(e){}if(pets%25===0)say(pets+' pets!');}
+function showCount(){cntEl.textContent='♥ '+(total!==null?total:pets);}
+function loadTotal(){
+  if(document.hidden)return;
+  fetch(CNT+'/get/'+CNS+'/'+CKEY).then(r=>r.status===404?{value:0}:r.json()).then(j=>{if(typeof j.value==='number'){total=Math.max(total||0,j.value);showCount();}}).catch(()=>{});
+}
+showCount();loadTotal();setInterval(loadTotal,30000);
+function bump(){
+  pets++;try{localStorage.setItem('tontiPets',pets);}catch(e){}
+  if(total!==null)total++;showCount();
+  fetch(CNT+'/hit/'+CNS+'/'+CKEY).then(r=>r.json()).then(j=>{if(typeof j.value==='number'){total=Math.max(j.value,total||0);showCount();if(total%100===0)say('♥ '+total+' pets!');}}).catch(()=>{});
+}
 /* ---------- konusma balonu ---------- */
 let bubTimer=0;
 function say(txt){bub.textContent=txt;bub.classList.add('on');clearTimeout(bubTimer);bubTimer=setTimeout(()=>bub.classList.remove('on'),1100);placeBub();}

@@ -8,16 +8,22 @@ Sitedeki sesler `sounds/` klasöründeki kayıtlar ve `index.html` içinde kodla
 |---|---|---|---|
 | `sounds/meow.m4a` | miyav | [Pixabay: Cute soft cat meow (3)](https://pixabay.com/sound-effects/film-special-effects-cute-soft-cat-meow-3-535482/), yodguard (m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
 | `sounds/mrrp.m4a` | "mrrp" (kısa cıvıltı) | [Pixabay: cat chirp](https://pixabay.com/sound-effects/nature-cat-chirp-99887/), freesound_community (kısa bölüm, m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
-| `sounds/meow-old.opus` | miyav ve mrrp yedeği (yeni kayıtlar yüklenemezse) | [Wikimedia Commons: Meow normalized.opus](https://commons.wikimedia.org/wiki/File:Meow_normalized.opus), orijinal: Dcrosby ([Meow.ogg](https://commons.wikimedia.org/wiki/File:Meow.ogg)) | CC BY-SA 3.0 |
-| `sounds/purr.ogg` | mırıltı (döngü) | [Wikimedia Commons: Purring cat.oga](https://commons.wikimedia.org/wiki/File:Purring_cat.oga), Mysid | Kamu malı |
+| `sounds/meow-old.m4a` | miyav ve mrrp yedeği (yeni kayıtlar yüklenemezse) | [Wikimedia Commons: Meow normalized.opus](https://commons.wikimedia.org/wiki/File:Meow_normalized.opus), orijinal: Dcrosby ([Meow.ogg](https://commons.wikimedia.org/wiki/File:Meow.ogg)) | CC BY-SA 3.0 |
+| `sounds/purr.m4a` | mırıltı (döngü) | [Wikimedia Commons: Purring cat.oga](https://commons.wikimedia.org/wiki/File:Purring_cat.oga), Mysid | Kamu malı |
 | `sounds/munch.m4a` | yemek yeme (kedi yerken döngüyle çalar) | [Pixabay: Cat Eating Dry Food](https://pixabay.com/sound-effects/household-cat-eating-dry-food-133130/), soundsforyou (kısa bölüm, m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
 | `sounds/lap.m4a` | su içme (kedi su içerken döngüyle çalar) | [Pixabay: Cat Drinking 6 FX](https://pixabay.com/sound-effects/nature-cat-drinking-6-fx-306169/), SOUND_GARAGE (kısa bölüm, m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
-| `sounds/crunch.ogg` | mama dökme (kısa parçalar hızlı çalınır) | [OpenGameArt: 7 Eating Crunches](https://opengameart.org/content/7-eating-crunches) | CC0 |
+| `sounds/crunch.m4a` | mama dökme (kısa parçalar hızlı çalınır) | [OpenGameArt: 7 Eating Crunches](https://opengameart.org/content/7-eating-crunches) | CC0 |
 | `sounds/water.mp3` | su dökme | [OpenGameArt: 6 Short water splashes](https://opengameart.org/content/6-short-water-splashes), ezwa (yükleyen: qubodup) | CC0 |
-| `sounds/bite.ogg` | yemek yeme yedeği | [OpenGameArt: Apple Bite](https://opengameart.org/content/apple-bite), AntumDeluge | CC0 |
+| `sounds/bite.m4a` | yemek yeme yedeği | [OpenGameArt: Apple Bite](https://opengameart.org/content/apple-bite), AntumDeluge | CC0 |
 
-`meow-old.opus` CC BY-SA 3.0 lisanslıdır: kaynak belirtmek gerekir (yukarıda belirtildi) ve bu dosyadan türeyen ses aynı lisansla paylaşılmalıdır. Pixabay lisansı ticari kullanıma izin verir ama dosyaların tek başına yeniden dağıtılmasına izin vermez.
+`meow-old.m4a` CC BY-SA 3.0 lisanslıdır: kaynak belirtmek gerekir (yukarıda belirtildi) ve bu dosyadan türeyen ses aynı lisansla paylaşılmalıdır. Pixabay lisansı ticari kullanıma izin verir ama dosyaların tek başına yeniden dağıtılmasına izin vermez.
 
 ## Kedi
 
 Kediyi 5 kez sevince karnını açar. Gökyüzü, güneş/ay, bulutlar ve tepeler ziyaretçinin tarayıcısındaki yerel saate göre değişir (gece lacivert ve yıldızlı, gündüz mavi gökyüzü ve bulutlu, gün doğumu ve batımı turuncu). Test için adrese `?hour=7` gibi bir saat eklenebilir (ör. `?hour=19.3`). Sekme ikonu (`favicon.svg`, `favicon.png`) pikselli kedi yüzüdür.
+
+Tüm ses dosyaları iPhone/Safari dahil her cihazda çalsın diye m4a (AAC) ve mp3 formatındadır; `purr`, `crunch`, `bite` ve `meow-old` kayıtları orijinalden m4a'ya çevrilmiştir.
+
+## Ortak sevgi sayacı
+
+Sağ üstteki ♥ sayacı herkesin sevmelerinin toplamıdır. Sayaç ücretsiz [Abacus](https://jasoncameron.dev/abacus/) servisinde (`piercies3sc-cat/hearts`) tutulur; servis ulaşılamazsa tarayıcıda saklanan kişisel sayı gösterilir. Anahtarsız herkese açık bir sayaç olduğu için biri adresi elle çağırarak sayıyı artırabilir.
