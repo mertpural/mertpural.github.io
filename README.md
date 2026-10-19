@@ -27,7 +27,8 @@ Dosyalar: `index.html` (sayfa ve stiller), `cat.js` (kedi, sesler, gökyüzü, b
 - 23 Nisan, 19 Mayıs, 30 Ağustos, 28-29 Ekim'de dalgalanan Türk bayrakları ve üstte küçük Türk bayraklarından oluşan bir bayrak dizisi çıkar. 10 Kasım'da sade bir anma günüdür: renkler soluklaşır, bayraklar yarıya iner, kedi sakin durur, hava olayları ve konfeti kapalıdır, 09:05'te bir dakikalık saygı duruşu (ekran kararır, ses kesilir). Yılbaşında (31 Aralık - 1 Ocak) renkli yanıp sönen ışık dizisi, süslü çam ağacı, hediyeler, kar ve kedinin başında kırmızı şapka olur. Test: `?date=10-29` ya da `?date=11-10&hour=9.09`.
 - Ara sıra yağmur ya da kar yağar, kedi yağmurda kutuya saklanır (`?weather=rain` / `?weather=snow`). Geceleri ara sıra kayan yıldız geçer.
 - Ortak sevgi sayacı 100'ün katlarına ulaşınca konfeti yağar.
-- Sağ üstteki 📷 düğmesi (ya da kedi kutudayken kutuya dokunmak) Tonti'nin fotoğraflarını polaroid olarak açar; fotoğrafa dokunarak sıradakine geçilir. Test: `?photo=2`.
+- Üstteki düğmeler ve sevgi sayacı pikselli çizilmiştir. Hoparlör düğmesi her basışta sesi 100% → 55% → 20% → kapalı arasında değiştirir (seçim tarayıcıda saklanır).
+- Sağ üstteki kamera düğmesi (ya da kedi kutudayken kutuya dokunmak) Tonti'nin fotoğraflarını polaroid olarak açar; fotoğrafa dokunarak sıradakine geçilir. Test: `?photo=2`.
 
 ## Ortak sevgi sayacı
 
