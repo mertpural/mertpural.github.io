@@ -798,15 +798,20 @@ function drawMiniFlag(x,y,k){
     }
   }
 }
+function groundFlags(amp,hang){
+  drawFlag(8,H-37,amp,hang);
+  const rx=Math.round(box.x-31);
+  if(rx>=bowls[1].x+9&&rx>40)drawFlag(rx,H-37,amp,hang);
+}
 function drawHoliday(){
   if(!HOLIDAY)return;
   if(HOLIDAY.kind==='newyear'){drawFairyLights();return;}
-  if(HOLIDAY.kind==='mourning'){drawFlag(8,H-37,.9,8);drawFlag(Math.round(box.x-34),H-37,.9,8);return;}
+  if(HOLIDAY.kind==='mourning'){groundFlags(.9,8);return;}
   const y0=Math.max(Math.round(H*.06),hudBottom());
   const sag=x=>Math.round(3*Math.sin((x%52)/52*Math.PI));
   for(let x=0;x<W;x++)R(x,y0+sag(x),1,1,'#c9b78e');
   for(let x=3,k=0;x<W-8;x+=13,k++){if(underHud(x,x+11,y0+sag(x+5)+9))continue;drawMiniFlag(x,y0+sag(x+5)+1,k);}
-  if(HOLIDAY.kind==='national'){drawFlag(8,H-37,2,0);drawFlag(Math.round(box.x-34),H-37,2,0);}
+  if(HOLIDAY.kind==='national')groundFlags(2,0);
 }
 const weather={type:'none',until:0,next:0,drops:[]};
 const forceW=qp.get('weather');let weatherInit=false;
