@@ -58,7 +58,7 @@ export function initUI(o){
       <ul class="chips">${p.stack.map(s=>`<li>${esc(s)}</li>`).join('')}</ul><div class="links">${links}</div></article>`;
   }
   const APPS={
-    about:{icon:ICON.notes,desk:ICON.doc,name:()=>L().about,w:560,h:470,render:()=>`<p class="eyebrow">${esc(L().about)}</p><h2>${esc(SITE.name)}</h2><p class="role">${esc(t(SITE.role))}</p>
+    about:{icon:ICON.notes,desk:ICON.doc,name:()=>L().about,w:580,h:600,render:()=>`<p class="eyebrow">${esc(L().about)}</p><h2>${esc(SITE.name)}</h2><p class="role">${esc(t(SITE.role))}</p>
       ${ABOUT[lang].map(p=>`<p>${esc(p)}</p>`).join('')}
       <dl class="facts">${ABOUT.facts.map(f=>`<div><dt>${esc(t(f.k))}</dt><dd>${esc(t(f.v))}</dd></div>`).join('')}</dl>`},
     projects:{icon:ICON.projects,desk:ICON.folder,name:()=>L().folderProjects,title:()=>L().projects,w:660,h:470,render:()=>`
@@ -139,8 +139,8 @@ export function initUI(o){
   function openApp(id){
     if(id==='exit'){close();return;}
     let a=APPS[id];if(!a)return;
-    /* bilgisayarda proje simgesi dogrudan sitesine gider; odadan (raftan) gelince proje karti acilir */
-    if(id.startsWith('p:')&&dive&&!a.forceWin){const p=[...PROJECTS,...WORK].find(x=>'p:'+x.id===id);if(p&&p.links.length){window.open(p.links[0].href,'_blank','noopener');return;}}
+    /* proje simgesi her yerde dogrudan projenin sitesine gider (sitesi olmayan proje pencerede acilir) */
+    if(id.startsWith('p:')&&!a.forceWin){const p=[...PROJECTS,...WORK].find(x=>'p:'+x.id===id);if(p&&p.links.length){window.open(p.links[0].href,'_blank','noopener');return;}}
     if(a.alias){const w2=openApp(a.alias);if(w2&&w2._run&&a.run)w2._run(a.run);return w2;}
     let w=wins.get(id);
     if(w){w.hidden=false;w.classList.remove('min');focusWin(w);return w;}
@@ -295,7 +295,7 @@ export function initUI(o){
     if(!open){open=true;lastFocus=document.activeElement;el.hidden=false;requestAnimationFrame(()=>el.classList.add('on'));clearInterval(clockT);clockT=setInterval(tick,15000);}
     if(!wasOpen){for(const w of wins.values())w.remove();wins.clear();}
     paintAll();
-    if(!dive)openApp(routeTo(r));
+    if(!dive){openApp(routeTo(r));if(!wins.size)close();}
   }
   function close(){
     if(!open)return;

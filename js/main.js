@@ -3,7 +3,7 @@
    tiklama da maskeye gore calisir. Derinlik ve maske, resimden bilgisayarda modelle cikarildi (bkz. README). */
 import {initUI} from './ui.js';
 import {initWall} from './wall.js';
-import {WALL_QR} from './content.js';
+import {WALL_QR,PROJECTS} from './content.js';
 import qrcode from './vendor/qrcode.js';
 import {wallpaperFile} from './wallpaper.js';
 
@@ -20,7 +20,8 @@ const PARALLAX=!!qp.get('ptr');
 /* Esyalar: n = maske numarasi (room-ids.png'de n*16), kutu = klavye odagi ve yakinlasma icin */
 const HOTSPOTS=[
   {n:1, id:'shelf',   box:[.172,.165,.340,.865],route:'projects'},
-  {n:2, id:'poqrox',  box:[.203,.443,.316,.573],route:'projects/poqrox'},
+  /* raftaki televizyon (QR): poQRox'un sitesine gider */
+  {n:2, id:'poqrox',  box:[.203,.443,.316,.573],href:PROJECTS.find(p=>p.id==='poqrox').links[0].href},
   {n:3, id:'games',   box:[.183,.720,.315,.812],route:'hobbies'},
   {n:4, id:'portrait',box:[.420,.170,.482,.290],route:'about'},
   {n:5, id:'cert',    box:[.488,.200,.564,.308],route:'skills'},
