@@ -379,7 +379,7 @@ function woodFrame(w,hh){
 function paintQR(){
   if(!gl)return;
   /* Lucas'in duvarindaki gibi: ince ahsap cerceve, krem kagit, oynak siyah harfli baslik, altta renkli QR */
-  const h=HOTSPOTS.find(o=>o.href),Q=WALL_QR,[x,y,w,hh]=px([h.x,h.y,h.w,h.h]),sh=7,a=mk(w+sh,hh+sh),c=a.getContext('2d');
+  const h=HOTSPOTS.find(o=>o.id==='qr'),Q=WALL_QR,[x,y,w,hh]=px([h.x,h.y,h.w,h.h]),sh=7,a=mk(w+sh,hh+sh),c=a.getContext('2d');
   c.fillStyle='rgba(40,22,10,.22)';c.fillRect(sh,sh,w,hh);
   const B=Math.max(7,Math.round(w*.065));
   c.fillStyle='#3a2416';c.fillRect(0,0,w,hh);
