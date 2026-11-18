@@ -1,35 +1,46 @@
-# Kedi sitesi
+# mert@portfolio
 
-Sitedeki sesler `sounds/` klasöründeki kayıtlar ve `index.html` içinde kodla üretilen yedek seslerdir. Bir dosya yüklenemezse yedek ses çalar.
+Mert Pural'ın portfolyosu: içinde gezilebilen piksel bir oda ve odadaki bilgisayarın içinde Mac'e benzeyen bir masaüstü. Canlı adres: https://mertpural.github.io
 
-## Ses kaynakları ve lisanslar
+## Nasıl çalışır
 
-| Dosya | Kullanıldığı yer | Kaynak | Lisans |
-|---|---|---|---|
-| `sounds/meow.m4a` | miyav | [Pixabay: Cute soft cat meow (3)](https://pixabay.com/sound-effects/film-special-effects-cute-soft-cat-meow-3-535482/), yodguard (m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
-| `sounds/mrrp.m4a` | "mrrp" (kısa cıvıltı) | [Pixabay: cat chirp](https://pixabay.com/sound-effects/nature-cat-chirp-99887/), freesound_community (kısa bölüm, m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
-| `sounds/meow-old.m4a` | miyav ve mrrp yedeği (yeni kayıtlar yüklenemezse) | [Wikimedia Commons: Meow normalized.opus](https://commons.wikimedia.org/wiki/File:Meow_normalized.opus), orijinal: Dcrosby ([Meow.ogg](https://commons.wikimedia.org/wiki/File:Meow.ogg)) | CC BY-SA 3.0 |
-| `sounds/purr.m4a` | mırıltı (döngü) | [Wikimedia Commons: Purring cat.oga](https://commons.wikimedia.org/wiki/File:Purring_cat.oga), Mysid | Kamu malı |
-| `sounds/munch.m4a` | yemek yeme (kedi yerken döngüyle çalar) | [Pixabay: Cat Eating Dry Food](https://pixabay.com/sound-effects/household-cat-eating-dry-food-133130/), soundsforyou (kısa bölüm, m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
-| `sounds/lap.m4a` | su içme (kedi su içerken döngüyle çalar) | [Pixabay: Cat Drinking 6 FX](https://pixabay.com/sound-effects/nature-cat-drinking-6-fx-306169/), SOUND_GARAGE (kısa bölüm, m4a'ya çevrildi) | Pixabay Content License (ücretsiz, ticari kullanıma izin verir) |
-| `sounds/crunch.m4a` | mama dökme (kısa parçalar hızlı çalınır) | [OpenGameArt: 7 Eating Crunches](https://opengameart.org/content/7-eating-crunches) | CC0 |
-| `sounds/water.mp3` | su dökme | [OpenGameArt: 6 Short water splashes](https://opengameart.org/content/6-short-water-splashes), ezwa (yükleyen: qubodup) | CC0 |
-| `sounds/bite.m4a` | yemek yeme yedeği | [OpenGameArt: Apple Bite](https://opengameart.org/content/apple-bite), AntumDeluge | CC0 |
+Derleme adımı yok; düz HTML + ES modülleri. Oda tek bir piksel resimdir; üstüne tıklanabilir alanlar, kedi, portre, QR tablosu ve ışıklı ekran WebGL ile işlenir.
 
-`meow-old.m4a` CC BY-SA 3.0 lisanslıdır: kaynak belirtmek gerekir (yukarıda belirtildi) ve bu dosyadan türeyen ses aynı lisansla paylaşılmalıdır. Pixabay lisansı ticari kullanıma izin verir ama dosyaların tek başına yeniden dağıtılmasına izin vermez.
+| Dosya | Ne işe yarar |
+|---|---|
+| `js/content.js` | **Tüm içerik** (hakkımda, projeler, iş deneyimi, yetenekler, hobiler, iletişim; TR + EN) ve duvardaki QR tablosunun ayarı (`WALL_QR`). Yeni proje eklemek için buraya bir kayıt yeterli. |
+| `js/main.js` | Oda, tıklanabilir alanlar (`HOTSPOTS`), günün saati, imleç dalgası, kedi ve sevgi barı, ekran/portre/QR çizimi. Alanların yerini görmek için `?edit=1`. |
+| `js/ui.js` | Bilgisayarın içi: menü çubuğu, masaüstü simgeleri, dock, sürüklenip boyutlandırılabilen pencereler, hazır komutlu terminal (`/me`, `/projects`…). Odadaki bir eşyaya tıklayınca aynı pencere tek başına açılır. |
+| `js/wall.js` | Ziyaretçi not duvarı. |
+| `js/wallpaper.js` | Masaüstü duvar kâğıdının çizimi; `assets/wallpaper*.jpg` bundan üretildi. |
+| `js/vendor/qrcode.js` | QR kodu üretici (Kazuhiko Arase, MIT lisansı). |
+| `assets/room-morning/day/sunset/night.jpg` | Odanın sabah, öğlen, akşam ve gece resmi; ziyaretçinin yerel saatine göre seçilir. |
+| `assets/room-depth.png`, `assets/room-ids.png` | Derinlik haritası (Depth Anything V2) ve eşya maskeleri (SlimSAM), ikisi de bilgisayarda çalıştırıldı; tıklama bu maskeye göre çalışır. |
+| `assets/cat/` | Meowly kedisinin kareleri. |
+| `assets/portrait.png` | Çerçevedeki piksel portre. |
+
+Deneme adresleri: `?hour=22`, `?lang=en`, `?hot=monitor`, `?panel=projects`, `?wall=1`, `?date=10-29`, `?edit=1`, `?nocount=1` (sevgi sayacına yazmaz).
+
+## Görseller
+
+- Oda (modern eşyalar, dört farklı ışık) Google Gemini ile üretildi.
+- Piksel portre fotoğraftan ChatGPT ile çizildi.
+- Kedi, Meowly uygulamasının kendi çizimleridir (Mert Pural).
 
 ## Kedi
 
-Dosyalar: `index.html` (sayfa ve stiller), `cat.js` (kedi, sesler, gökyüzü, bayramlar, hava; ileride başka sayfalara tek satırla eklenebilir), `sw.js` + `manifest.webmanifest` (telefona uygulama olarak eklenebilir, çevrimdışı açılır), `og.png` (link paylaşım kartı), `photos/` (Tonti'nin fotoğrafları).
+- Meowly'nin kedisi top ile bitkinin arasında oturur, göz kırpar, ara ara uyur. Yürümez, sessizdir.
+- İmleci üstünde gezdirince ya da tıklayınca sevilir (kalp çıkar). Tıklayınca çıkan "Meowly" etiketi meowly.vercel.app adresine gider.
+- Sol alttaki sevgi barı herkesin toplam sevgisini gösterir; alttaki ince çubuk o ziyaretçinin sevgisidir. 50 kez sevilince kedi "puf" diye kaybolur, 30 saniye sonra geri gelir. Bir tarayıcı günde en fazla 200 kez sayaca yazabilir.
+- Lambaya tıklamak odayı geceye (geceyse gündüze) çevirir. Milli bayramlarda duvara bayrak dizisi, yılbaşında ışıklar asılır; 10 Kasım'da oda soluklaşır.
 
-- Kediyi 5 kez sevince (dokunma, tıklama ya da boşluk/Enter tuşu) karnını açar. 8 saniyede 14'ten fazla sevilirse kaçar ve 15 saniye boyunca sevilmez (sayaca da sayılmaz).
-- Gökyüzü, güneş/ay, bulutlar ve tepeler ziyaretçinin yerel saatine göre değişir. Test: adrese `?hour=7` ya da `?hour=19.3` ekleyin.
-- 23 Nisan, 19 Mayıs, 30 Ağustos, 28-29 Ekim'de dalgalanan Türk bayrakları ve üstte küçük Türk bayraklarından oluşan bir bayrak dizisi çıkar. 10 Kasım'da sade bir anma günüdür: renkler soluklaşır, bayraklar yarıya iner, kedi sakin durur, hava olayları ve konfeti kapalıdır, 09:05'te bir dakikalık saygı duruşu (ekran kararır, ses kesilir). Yılbaşında (31 Aralık - 1 Ocak) renkli yanıp sönen ışık dizisi, süslü çam ağacı, hediyeler, kar ve kedinin başında kırmızı şapka olur. Test: `?date=10-29` ya da `?date=11-10&hour=9.09`.
-- Ara sıra yağmur ya da kar yağar, kedi yağmurda kutuya saklanır (`?weather=rain` / `?weather=snow`). Geceleri ara sıra kayan yıldız geçer.
-- Ortak sevgi sayacı 100'ün katlarına ulaşınca konfeti yağar.
-- Üstteki düğmeler ve sevgi sayacı pikselli çizilmiştir. Hoparlör düğmesi her basışta sesi 100% → 55% → 20% → kapalı arasında değiştirir (seçim tarayıcıda saklanır).
-- Sağ üstteki kamera düğmesi (ya da kedi kutudayken kutuya dokunmak) Tonti'nin fotoğraflarını polaroid olarak açar; fotoğrafa dokunarak sıradakine geçilir. Test: `?photo=2`.
+## Ziyaretçi notları
+
+Duvardaki post-it'lere tıklayan ziyaretçi not duvarına geçer: soldaki renkli kâğıtlardan birini duvara sürükler, notunu yazar (ad isteğe bağlı) ve "Yapıştır"a basar; not bıraktığı yerde kalır. Notlar Supabase'deki `mert-portfolio` projesinde, `notes` tablosunda durur.
+
+- Yeni not hemen duvarda görünür (onay yok). Bir notu kaldırmak için Supabase → Table Editor → `notes` → satırı sil ya da `approved` kutusunun işaretini kaldır.
+- Sitedeki anahtar herkese açık (publishable) anahtardır; tablo kuralları yalnızca okumaya ve not eklemeye izin verir.
 
 ## Ortak sevgi sayacı
 
-Sağ üstteki ♥ sayacı herkesin sevmelerinin toplamıdır. Sayaç ücretsiz [Abacus](https://jasoncameron.dev/abacus/) servisinde (`piercies3sc-cat/hearts`) tutulur; servis ulaşılamazsa tarayıcıda saklanan kişisel sayı gösterilir. Anahtarsız herkese açık bir sayaç olduğu için biri adresi elle çağırarak sayıyı artırabilir. Site büyüyünce kendi sunucuya (ör. Supabase) taşınabilir.
+Sayaç ücretsiz [Abacus](https://jasoncameron.dev/abacus/) servisinde (`piercies3sc-cat/hearts`) tutulur. Anahtarsız herkese açık bir sayaç olduğu için biri adresi elle çağırarak sayıyı artırabilir; site büyüyünce kendi sunucuya (ör. Supabase) taşınabilir.

@@ -1,13 +1,13 @@
 {
- "name": "mert@portfolio - Tonti",
- "short_name": "Tonti",
- "description": "mert's portfolio is coming soon. Meanwhile, pet the cat.",
+ "name": "mert@portfolio",
+ "short_name": "mert",
+ "description": "Mert Pural's portfolio: a pixel room you can explore.",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
  "orientation": "any",
- "background_color": "#0d1117",
- "theme_color": "#0d1117",
+ "background_color": "#14161d",
+ "theme_color": "#14161d",
  "icons": [
   {
    "src": "icon-192.png",

@@ -1,0 +1,389 @@
+/* Meowly'nin piksel dili: centikli kartlar, tek yazi ailesi (mono), ayni palet. */
+:root{--paper:#fbf8f3;--card:#ffffff;--ink:#160c0c;--sub:#8a807d;--line:#ece7e0;--pink:#e88fa3;--pink-bg:#fae8ec;--amber:#cf8c29;--lift:rgba(22,12,12,.18);
+ --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;color-scheme:light}
+:root[data-theme="dark"]{--paper:#121214;--card:#222225;--ink:#f0f0ed;--sub:#9e9ea6;--line:#303034;--pink-bg:#542e3b;--lift:rgba(0,0,0,.5);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#2a211c;color:var(--ink);font-family:var(--mono);font-size:15px;line-height:1.55;
+ -webkit-font-smoothing:antialiased;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+[data-theme="dark"] body{background:#15131f}
+
+/* piksel cerceve: koseler bir basamak iceri cekik */
+.px{background:var(--card);color:var(--ink);box-shadow:0 -2px 0 0 var(--ink),0 2px 0 0 var(--ink),-2px 0 0 0 var(--ink),2px 0 0 0 var(--ink)}
+
+/* ---------- oda ---------- */
+#view{position:fixed;inset:0;overflow:hidden;touch-action:none;cursor:grab}
+#view.drag{cursor:grabbing}
+#room{position:absolute;left:0;top:0;will-change:transform}
+.bg{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.bg{opacity:0;transition:opacity .7s ease}
+html.mourn #room{filter:saturate(.2)}
+/* bayram susleri: duvarin ustunde bayrak dizisi ya da isiklar */
+#decor{position:absolute;left:0;right:0;top:2.5%;height:5%;pointer-events:none;display:none;background-repeat:repeat-x;background-size:auto 100%;image-rendering:pixelated}
+[data-decor="flags"] #decor{display:block;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 20' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h26' stroke='%235a3b28' stroke-width='1'/%3E%3Crect x='5' y='2' width='16' height='11' fill='%23e30a17'/%3E%3Cpath fill='%23fff' d='M9 5h3v1h-3zM8 6h2v3H8zM9 9h3v1H9zM14 7h3v1h-3zM15 6h1v3h-1z'/%3E%3C/svg%3E")}
+[data-decor="lights"] #decor{display:block;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h60' stroke='%233d2a22' stroke-width='1'/%3E%3Crect x='4' y='2' width='4' height='5' fill='%23ffd86b'/%3E%3Crect x='19' y='3' width='4' height='5' fill='%23ff8fb1'/%3E%3Crect x='34' y='2' width='4' height='5' fill='%237fd1ff'/%3E%3Crect x='49' y='3' width='4' height='5' fill='%23b6ffd9'/%3E%3C/svg%3E");animation:tw 1.2s steps(2) infinite}
+@keyframes tw{50%{filter:brightness(.7)}}
+/* tiklanabilir alanlar */
+.hot{position:absolute;margin:0;padding:0;border:0;background:none;cursor:pointer;font:inherit;border-radius:0;pointer-events:none}
+.hot.box{pointer-events:auto}
+.hot:focus-visible{outline:2px solid var(--pink)!important;outline-offset:4px}
+.hot i{position:absolute;inset:0;opacity:0;transition:opacity .15s;
+ background:
+  linear-gradient(var(--pink),var(--pink)) 0 0/14px 3px no-repeat,linear-gradient(var(--pink),var(--pink)) 0 0/3px 14px no-repeat,
+  linear-gradient(var(--pink),var(--pink)) 100% 0/14px 3px no-repeat,linear-gradient(var(--pink),var(--pink)) 100% 0/3px 14px no-repeat,
+  linear-gradient(var(--pink),var(--pink)) 0 100%/14px 3px no-repeat,linear-gradient(var(--pink),var(--pink)) 0 100%/3px 14px no-repeat,
+  linear-gradient(var(--pink),var(--pink)) 100% 100%/14px 3px no-repeat,linear-gradient(var(--pink),var(--pink)) 100% 100%/3px 14px no-repeat}
+.hot:hover i,.hot:focus-visible i,.edit .hot i{opacity:1}
+.hot:focus-visible{outline:none}
+.edit .hot{background:rgba(232,143,163,.25)}
+/* kedi */
+#cat{position:absolute;bottom:4.5%;left:60%;height:18.5%;width:auto;image-rendering:pixelated;image-rendering:crisp-edges;cursor:pointer;translate:-50% 0;transform-origin:50% 100%;animation:breathe 2.2s ease-in-out infinite;-webkit-user-drag:none;outline:none}
+@keyframes breathe{50%{transform:scaleY(1.022)}}
+[data-theme="dark"] #cat{filter:brightness(.74) saturate(.9)}
+#cat:focus-visible{filter:drop-shadow(0 0 0 var(--pink)) drop-shadow(0 0 3px var(--pink))}
+#fx{position:absolute;inset:0;pointer-events:none}
+.heart,.zz{position:absolute;transform:translateX(-50%);animation:rise 1.4s ease-out forwards}
+.heart svg{display:block;width:1.5vw;min-width:18px}
+.zz{font-size:max(12px,.95vw);color:var(--sub);white-space:nowrap;margin-left:1.6%}
+@keyframes rise{from{opacity:0;translate:0 0}20%{opacity:1}to{opacity:0;translate:0 -34px}}
+#mtag{position:absolute;bottom:25%;text-decoration:none;transform:translateX(-50%) translateY(6px);font:inherit;font-size:max(12px,.85vw);font-weight:700;color:#160c0c;background:var(--pink);border:0;padding:5px 10px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;white-space:nowrap;
+ box-shadow:0 -2px 0 0 #160c0c,0 2px 0 0 #160c0c,-2px 0 0 0 #160c0c,2px 0 0 0 #160c0c}
+#mtag.on{opacity:1;pointer-events:auto;transform:translateX(-50%)}
+
+/* ---------- ust cubuk ---------- */
+#hud{position:fixed;top:calc(16px + env(safe-area-inset-top));left:calc(16px + env(safe-area-inset-left));right:calc(16px + env(safe-area-inset-right));z-index:4;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
+#hud button{pointer-events:auto;border:0;font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:9px 13px;min-height:40px}
+#hud button:hover{background:var(--pink-bg)}
+#hud button:active{transform:translateY(2px)}
+#brand i{font-style:normal;color:var(--pink)}
+#lang{min-width:46px}
+button:focus-visible,a:focus-visible{outline:2px solid var(--pink);outline-offset:3px}
+#holiday{position:fixed;left:50%;top:calc(18px + env(safe-area-inset-top));transform:translateX(-50%);margin:0;z-index:3;font-size:13px;padding:8px 14px;max-width:calc(100vw - 230px);text-align:center;pointer-events:none}
+/* sevgi bari: toplam sayi hep gorunur; alttaki ince cubuk bu turdaki senin sevgin (dolunca kedi puf olur) */
+#cnt{position:fixed;left:calc(18px + env(safe-area-inset-left));bottom:calc(18px + env(safe-area-inset-bottom));z-index:3;display:flex;align-items:center;gap:7px;padding:6px 12px 10px;min-width:104px;font-size:13px;font-weight:700;pointer-events:auto;cursor:default}
+#cnt i{position:absolute;left:12px;right:12px;bottom:4px;height:4px;background:rgba(232,143,163,.25)}
+#cnt i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--fill,0%);background:var(--pink);transition:width .25s}
+#cnt.bump svg{animation:bump .35s}
+@keyframes bump{40%{transform:scale(1.35)}}
+#cat.gone{visibility:hidden;pointer-events:none}
+.puff{position:absolute;width:.55vw;min-width:6px;aspect-ratio:1;background:#f4efe8;box-shadow:0 0 0 1px rgba(60,40,30,.25);transform:translate(-50%,50%);animation:puff .9s ease-out forwards;z-index:4}
+@keyframes puff{0%{opacity:0;translate:0 0;scale:.6}15%{opacity:1}100%{opacity:0;translate:var(--dx) var(--dy);scale:1.6}}
+#cnt svg{width:16px;display:block}
+#tip{position:fixed;z-index:5;font-size:12px;font-weight:700;padding:4px 9px;opacity:0;pointer-events:none;white-space:nowrap;transition:opacity .1s}
+#tip.on{opacity:1}
+
+/* ---------- ekranin ici ---------- */
+#screen{position:fixed;inset:0;z-index:10;opacity:0;transition:opacity .2s;-webkit-user-select:text;user-select:text}
+#screen[hidden]{display:none}
+#screen.on{opacity:1}
+.path{flex:1;min-width:0;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.x{font:inherit;font-size:14px;background:none;border:0;color:var(--ink);width:36px;height:32px;cursor:pointer}
+.x:hover{background:var(--pink-bg)}
+.view{flex:1;min-width:0;overflow-y:auto;padding:26px clamp(18px,4vw,42px) 44px;outline:none;overscroll-behavior:contain}
+.view p{margin:0 0 14px;max-width:64ch}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:12px!important;font-weight:700}
+.view h2{font-size:clamp(28px,5vw,40px);line-height:1.1;margin:0 0 6px;letter-spacing:-.03em}
+.role{color:var(--sub);margin-bottom:22px!important}
+.muted{color:var(--sub);font-size:13.5px}
+.facts{margin:26px 2px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.facts div{padding:11px 14px}
+.facts dt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--sub)}
+.facts dd{margin:3px 0 0;font-weight:700}
+.card{padding:18px 20px;margin:2px 2px 18px;scroll-margin:14px}
+.card.focus{box-shadow:0 -2px 0 0 var(--pink),0 2px 0 0 var(--pink),-2px 0 0 0 var(--pink),2px 0 0 0 var(--pink),0 0 0 6px var(--pink-bg)}
+.card header{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:8px}
+.card h3{font-size:19px;margin:0;letter-spacing:-.02em}
+.status{font-size:11px;padding:2px 8px;background:var(--pink-bg);font-weight:700}
+.lead{font-weight:700}
+.chips{list-style:none;margin:4px 0 14px;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.chips li{font-size:11.5px;color:var(--sub);border:1px solid var(--line);padding:2px 8px}
+.chips.big li{font-size:13px;color:var(--ink);padding:6px 11px;background:var(--card)}
+.grp{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin:22px 0 8px;font-weight:400}
+.links{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{font-size:13px;color:#fff;background:var(--ink);padding:7px 13px;text-decoration:none;font-weight:700}
+[data-theme="dark"] .btn{color:#121214}
+.btn+.btn{background:none;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn:hover{background:var(--pink);color:#160c0c}
+.postits{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:20px}
+.postits li{aspect-ratio:1;padding:14px;font-size:13px;line-height:1.45;color:#2a2620;transform:rotate(var(--r));box-shadow:0 5px 0 var(--lift);border-top:10px solid rgba(0,0,0,.1)}
+.postits .yellow{background:#ffe27a}.postits .pink{background:#ffadc0}.postits .blue{background:#a9d6ff}.postits .green{background:#bdeeae}
+.rows{list-style:none;margin:18px 0 0;padding:0;border-top:2px solid var(--line)}
+.rows li{display:flex;gap:16px;align-items:baseline;padding:14px 2px;border-bottom:2px solid var(--line)}
+.rows span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);width:90px;flex:none}
+.rows a{color:var(--ink);font-weight:700;text-decoration:underline;text-decoration-color:var(--pink);text-decoration-thickness:2px;text-underline-offset:4px;word-break:break-all}
+.rows a:hover{background:var(--pink-bg)}
+.nojs{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:var(--paper);z-index:20}
+
+@media (max-width:640px){
+ .view{padding:22px 18px calc(44px + env(safe-area-inset-bottom))}
+ .x{width:44px;height:40px}
+ #holiday{top:calc(70px + env(safe-area-inset-top));max-width:92vw}
+}
+@media (prefers-reduced-motion:reduce){.scr b,.pin,.hot::after,#cat{animation:none}.bg,#screen,.mw{transition:none}}
+/* ziyaretci notlari */
+.noteform{padding:16px 18px;margin:6px 2px 26px;display:grid;gap:12px;max-width:560px}
+.noteform label>span{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-bottom:4px}
+.noteform input[name=name],.noteform textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:2px solid var(--line);border-radius:0;padding:8px 10px;resize:vertical}
+.noteform input:focus,.noteform textarea:focus{outline:none;border-color:var(--pink)}
+.noteform .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.noteform .row{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.noteform button{border:0;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.noteform button:disabled{opacity:.5}
+.noteform .msg{margin:0;min-height:1.4em}
+.swatches{display:flex;gap:8px}
+.swatches input{position:absolute;opacity:0}
+.swatches span{display:block;width:26px;height:26px;cursor:pointer;box-shadow:0 0 0 2px var(--line)}
+.swatches input:checked+span{box-shadow:0 0 0 2px var(--ink)}
+.swatches input:focus-visible+span{outline:2px solid var(--pink);outline-offset:3px}
+.swatches .yellow span{background:#ffe27a}.swatches .pink span{background:#ffadc0}.swatches .blue span{background:#a9d6ff}.swatches .green span{background:#bdeeae}
+.postits li small{display:block;margin-top:8px;font-size:11px;opacity:.65}
+.postits li small::before{content:"— "}
+.postits li{word-break:break-word;overflow:hidden}
+.postits .empty{aspect-ratio:auto;transform:none;box-shadow:none;border:0;padding:0;grid-column:1/-1;background:none}
+/* ekranin ici bir monitor gibi: gunun saatinden bagimsiz, her zaman koyu */
+/* ---------- not duvari ---------- */
+#wall{position:fixed;inset:0;z-index:12;opacity:0;transition:opacity .26s;background:#e9cfa6;overflow:hidden;-webkit-user-select:none;user-select:none;touch-action:none}
+#wall[hidden]{display:none}
+#wall.on{opacity:1}
+[data-tod="morning"] #wall{background:#e6dfe9}
+[data-tod="sunset"] #wall{background:#e3a184}
+[data-tod="night"] #wall{background:#3a365c}
+/* duvar dokusu: ince piksel benekler ve yumusak isik */
+#wall::before{content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(120% 90% at 20% 0%,rgba(255,244,214,.55),transparent 60%),
+  repeating-linear-gradient(0deg,rgba(90,60,40,.035) 0 2px,transparent 2px 9px),repeating-linear-gradient(90deg,rgba(90,60,40,.03) 0 2px,transparent 2px 13px)}
+[data-tod="night"] #wall::before{background:radial-gradient(60% 50% at 50% 100%,rgba(255,190,110,.22),transparent 70%)}
+#wall .board{position:absolute;inset:64px 24px 24px 96px}
+#wall>.x{position:absolute;top:calc(16px + env(safe-area-inset-top));right:16px;border:0;font:inherit;font-size:14px;font-weight:700;width:44px;height:40px;cursor:pointer;z-index:3}
+#wall>.x:hover{background:var(--pink-bg)}
+#wall .chips{position:absolute;left:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;z-index:2}
+#wall .chips i{display:block;width:52px;height:52px;cursor:grab;box-shadow:0 4px 0 rgba(40,20,10,.22);border-top:8px solid rgba(0,0,0,.1);transition:transform .15s;touch-action:none}
+#wall .chips i:hover{transform:translateX(6px) rotate(-4deg)}
+#wall .chips i:nth-child(1),.note.yellow{background:#ffe27a}#wall .chips i:nth-child(2),.note.pink{background:#ffadc0}#wall .chips i:nth-child(3),.note.blue{background:#a9d6ff}#wall .chips i:nth-child(4),.note.green{background:#bdeeae}
+.note{position:absolute;width:150px;min-height:150px;padding:14px 12px 10px;color:#2a2620;font-size:13px;line-height:1.4;transform:translate(-50%,-50%) rotate(var(--r,0deg));box-shadow:0 5px 0 rgba(40,20,10,.2);border-top:10px solid rgba(0,0,0,.1);word-break:break-word;display:flex;flex-direction:column;gap:8px}
+.note p{margin:0;flex:1}
+.note small{font-size:11px;opacity:.65}.note small::before{content:"— "}
+.note.in{animation:noteIn .35s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes noteIn{from{opacity:0;transform:translate(-50%,-56%) rotate(var(--r,0deg)) scale(.9)}}
+/* taslak: havada, hafif buyuk; yapisinca duvara "pat" diye oturur */
+.note.draft{--r:0deg;width:190px;z-index:5;cursor:grab;transform:translate(-50%,-50%) scale(1.04);box-shadow:0 14px 0 rgba(40,20,10,.16),0 0 0 2px #160c0c}
+.note.draft.held{cursor:grabbing;transform:translate(-50%,-54%) rotate(-3deg) scale(1.08);box-shadow:0 22px 0 rgba(40,20,10,.12),0 0 0 2px #160c0c}
+.note.draft textarea,.note.draft input[name=name]{font:inherit;color:#2a2620;background:rgba(255,255,255,.45);border:0;border-radius:0;padding:6px 7px;width:100%;resize:none}
+.note.draft textarea:focus,.note.draft input:focus{outline:2px solid #160c0c}
+.note.draft .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.note .act{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.note .msg{font-size:11px;line-height:1.3}
+.note.draft button{font:inherit;font-size:12px;font-weight:700;border:0;background:#160c0c;color:#fff;padding:6px 10px;cursor:pointer;margin-left:auto}
+.note.draft button:disabled{opacity:.5}
+.note.stuck{animation:stick .5s cubic-bezier(.2,1.5,.4,1) both;z-index:4}
+@keyframes stick{0%{transform:translate(-50%,-58%) rotate(-4deg) scale(1.18);box-shadow:0 26px 0 rgba(40,20,10,.1)}55%{transform:translate(-50%,-49%) rotate(var(--r,0deg)) scale(.95);box-shadow:0 1px 0 rgba(40,20,10,.3)}100%{transform:translate(-50%,-50%) rotate(var(--r,0deg)) scale(1)}}
+@media (max-width:640px){#wall .board{inset:64px 10px 16px 72px}#wall .chips{left:10px}#wall .chips i{width:44px;height:44px}.note{width:118px;min-height:118px;font-size:12px;padding:10px 9px 8px}.note.draft{width:160px}}
+@media (prefers-reduced-motion:reduce){.note.in,.note.stuck{animation:none}#wall{transition:none}}
+/* tek konulu kucuk pencere (yasadigim yer) */
+
+/* ---------- oda katmanlari ---------- */
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+.nogl #gl{display:none}
+html:not(.nogl) .bg{display:none}
+/* resmin ustundeki her sey: kenar kaymasi payi kadar buyutulmus kutu (derinlik efektiyle hizali) */
+#ov{position:absolute;inset:0;transform:scale(1.0225);transform-origin:50% 50%}
+.nogl #ov{transform:none}
+#portrait{position:absolute;left:42.19%;top:18.07%;width:4.96%;height:9.86%;background:#e8e0d0;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(90,60,40,.25),inset 0 3px 6px rgba(60,40,25,.25);display:flex;align-items:center;justify-content:center;pointer-events:none;transition:filter .8s}
+#portrait img{width:100%;height:100%;object-fit:cover;box-shadow:0 0 0 1px rgba(60,40,25,.35)}
+[data-tod="night"] #portrait{filter:brightness(.48) saturate(.7) hue-rotate(-10deg)}
+[data-tod="sunset"] #portrait{filter:brightness(.92) sepia(.3) saturate(1.15)}
+[data-tod="morning"] #portrait{filter:brightness(1.02) saturate(.9) hue-rotate(6deg)}
+#scr{position:absolute;left:43.2%;top:39.2%;width:13.6%;height:14.3%;container-type:size;display:flex;align-items:center;justify-content:center;pointer-events:none;color:#f0f0ed;transition:opacity .3s}
+#scr span{font-size:8.6cqw;letter-spacing:-.02em;margin-right:2.5cqw}
+#scr b{width:4cqw;height:10cqw;background:var(--pink);animation:blink 1s step-end infinite}
+[data-tod="night"] #scr{text-shadow:0 0 1.4cqw rgba(232,143,163,.7)}
+.dive #scr{opacity:0}
+#dust{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;pointer-events:none;mix-blend-mode:screen}
+.glow{position:absolute;pointer-events:none;border-radius:50%;opacity:0;transition:opacity 1s;mix-blend-mode:screen}
+.lampglow{left:31%;top:30%;width:24%;height:36%;background:radial-gradient(closest-side,rgba(255,196,110,.42),rgba(255,170,80,.12) 55%,transparent);animation:flick 4s ease-in-out infinite}
+.arcglow{left:20.5%;top:43%;width:9%;height:14%;background:radial-gradient(closest-side,rgba(200,225,255,.45),transparent);animation:flick 2.6s ease-in-out infinite}
+[data-tod="night"] .glow{opacity:1}
+@keyframes flick{0%,100%{filter:brightness(1)}45%{filter:brightness(1.12)}50%{filter:brightness(.92)}55%{filter:brightness(1.08)}}
+[data-theme="dark"] #cat{filter:brightness(.62) saturate(.85) hue-rotate(-8deg)}
+[data-tod="sunset"] #cat{filter:sepia(.25) saturate(1.15) brightness(.97)}
+#fx{z-index:4}
+/* ---------- PC'ye girme: monitore dalinca ekran camla ayni renkte, tam ekran ---------- */
+/* hobiler */
+.hob{list-style:none;margin:18px 2px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.hob>li{padding:16px 18px}
+.hob>li>h3{margin:0 0 6px;font-size:16px}
+.hob>li>p{margin:0;color:var(--sub);font-size:14px}
+.hob .tags{margin-top:10px}
+.empty-work{margin:6px 2px 22px;padding:14px 16px;color:var(--sub);font-size:13.5px;border:2px dashed var(--line)}
+/* WebGL varken portre, ekran yazisi ve kedi odanin resmine islenir (dalga ve derinlik onlara da gecer) */
+.glov #portrait,.glov #scr{visibility:hidden}
+.glov #cat{opacity:0}
+.glov #cat:focus-visible{opacity:1}
+/* ---------- bilgisayar: Mac'e benzeyen masaustu ---------- */
+.mac{--paper:#fff;--card:#f5f5f7;--ink:#1d1d1f;--sub:#6e6e73;--line:#e3e3e8;--pink-bg:#fde7ee;--amber:#c7741c;--accent:#0a7aff;
+  position:absolute;inset:0;display:flex;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue","Segoe UI",system-ui,sans-serif;font-size:14px;color:var(--ink);letter-spacing:-.005em;
+  background:radial-gradient(120% 85% at 12% 108%,#ffb27a 0,rgba(255,178,122,0) 58%),radial-gradient(90% 70% at 92% 100%,#d0659e 0,rgba(208,101,158,0) 62%),radial-gradient(70% 60% at 70% 10%,#7d6ce0 0,rgba(125,108,224,0) 70%),linear-gradient(170deg,#28336e 0,#5a4aa6 46%,#e1828b 100%)}
+.mac.dark{--paper:#232326;--card:#2c2c30;--ink:#f2f2f4;--sub:#9d9da6;--line:#3a3a3f;--pink-bg:#4a2a36;--amber:#f0a442;--accent:#3d9bff;color-scheme:dark;
+  background:radial-gradient(120% 85% at 12% 108%,#a3502c 0,rgba(163,80,44,0) 58%),radial-gradient(90% 70% at 92% 100%,#6d2a5a 0,rgba(109,42,90,0) 62%),linear-gradient(170deg,#0d1130 0,#221a4a 50%,#4a2440 100%)}
+.mac.solo{background:rgba(18,10,8,.38)}
+.mac.solo .menubar,.mac.solo .desk,.mac.solo .dock{display:none}
+.mac button{font:inherit;color:inherit}
+.menubar{flex:none;height:28px;padding:0 10px;padding-top:env(safe-area-inset-top);display:flex;align-items:center;gap:16px;font-size:13px;color:#1d1d1f;background:rgba(246,246,248,.62);-webkit-backdrop-filter:blur(24px) saturate(1.6);backdrop-filter:blur(24px) saturate(1.6);box-shadow:0 1px 0 rgba(0,0,0,.08);position:relative;z-index:5}
+.mac.dark .menubar{color:#f2f2f4;background:rgba(30,30,34,.55)}
+.menubar .logo svg{width:15px;height:15px;display:block}
+.menubar .app{font-weight:700}
+.menubar .menus{display:flex;gap:16px;opacity:.86}
+.menubar .right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.menubar .sys{display:flex;gap:10px;align-items:center}.menubar .sys svg{height:13px;width:auto}
+.menubar .clock{font-variant-numeric:tabular-nums;white-space:nowrap}
+.menubar .lng,.menubar .exit{background:none;border:0;padding:2px 7px;border-radius:5px;cursor:pointer;font-size:13px}
+.menubar .lng:hover,.menubar .exit:hover{background:rgba(0,0,0,.08)}.mac.dark .menubar .lng:hover,.mac.dark .menubar .exit:hover{background:rgba(255,255,255,.12)}
+.menubar .exit{font-weight:600}
+/* masaustu simgeleri: Mac'teki gibi sag ustten asagi */
+.desk{position:absolute;top:44px;right:18px;bottom:96px;display:grid;grid-auto-flow:column;grid-template-rows:repeat(auto-fill,98px);grid-auto-columns:96px;direction:rtl;gap:6px 10px;z-index:1}
+.ico{direction:ltr;display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;padding:6px 2px;cursor:pointer;border-radius:8px}
+.ico .i{width:58px;height:54px;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:2px}
+.ico .i svg{width:100%;height:100%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+.ico .n{font-size:12px;font-weight:600;line-height:1.25;padding:1px 6px;border-radius:4px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);text-align:center;max-width:92px}
+.ico.sel .i,.ico:focus-visible .i{background:rgba(0,0,0,.22)}
+.ico.sel .n,.ico:focus-visible .n{background:var(--accent);text-shadow:none}
+.ico:focus{outline:none}
+/* dock */
+.dock{position:absolute;left:0;right:0;bottom:calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:4;pointer-events:none}
+.dock-in{pointer-events:auto;display:flex;align-items:flex-end;gap:7px;padding:6px 9px 8px;border-radius:22px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.26);-webkit-backdrop-filter:blur(26px) saturate(1.6);backdrop-filter:blur(26px) saturate(1.6);box-shadow:0 0 0 1px rgba(255,255,255,.35) inset,0 10px 30px rgba(0,0,0,.25);max-width:calc(100vw - 16px);overflow-x:auto;overflow-y:visible}
+.mac.dark .dock-in{background:rgba(30,30,36,.42);border-color:rgba(255,255,255,.14);box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 10px 30px rgba(0,0,0,.4)}
+.dk{--s:1;position:relative;background:none;border:0;padding:0;cursor:pointer;width:calc(50px * var(--s));transition:width .12s ease-out;flex:none}
+.dk .i{display:block;width:100%;aspect-ratio:1}.dk .i svg{width:100%;height:100%;display:block;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+.dk .tip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);white-space:nowrap;font-size:12px;padding:3px 9px;border-radius:6px;background:rgba(240,240,242,.92);color:#1d1d1f;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .1s}
+.dk:hover .tip,.dk:focus-visible .tip{opacity:1}
+.dk .dot{position:absolute;left:50%;bottom:-6px;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.85);transform:translateX(-50%);opacity:0}
+.mac.dark .dk .dot{background:rgba(255,255,255,.75)}
+.dk.on .dot{opacity:1}
+.dk.hop .i{animation:hop .5s ease-out}
+@keyframes hop{30%{transform:translateY(-14px)}60%{transform:translateY(0)}80%{transform:translateY(-4px)}}
+.dk:focus{outline:none}.dk:focus-visible .i{outline:2px solid var(--accent);outline-offset:3px;border-radius:14px}
+.sep{width:1px;align-self:stretch;margin:8px 3px;background:rgba(255,255,255,.3)}.mac.dark .sep{background:rgba(255,255,255,.2)}
+/* pencereler */
+.wins{position:absolute;top:28px;left:0;right:0;bottom:84px;z-index:2;pointer-events:none}
+.mac.solo .wins{top:0;bottom:0}
+.mw{pointer-events:auto;position:absolute;display:flex;flex-direction:column;background:var(--paper);border-radius:12px;overflow:hidden;box-shadow:0 0 0 .5px rgba(0,0,0,.25),0 22px 60px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.18);opacity:0;transform:scale(.96);transition:opacity .16s,transform .16s}
+.mw.in{opacity:1;transform:none}
+.mw.min{opacity:0;transform:translateY(60%) scale(.2);transition:opacity .18s,transform .18s}
+.mw:not(.front){box-shadow:0 0 0 .5px rgba(0,0,0,.2),0 10px 30px rgba(0,0,0,.22)}
+.mw.max{left:0!important;top:0!important;width:100%!important;height:100%!important;border-radius:0}
+.mw-bar{flex:none;height:38px;display:flex;align-items:center;padding:0 12px;background:var(--card);border-bottom:1px solid var(--line);cursor:default;user-select:none;-webkit-user-select:none;position:relative}
+.lights{display:flex;gap:8px;position:relative;z-index:1}
+.l{width:12px;height:12px;border-radius:50%;border:0;padding:0;cursor:pointer;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.2)}
+.l.cl{background:#ff5f57}.l.mn{background:#febc2e}.l.zm{background:#28c840}
+.mw:not(.front) .l{background:#cdcdd2}.mac.dark .mw:not(.front) .l{background:#55555b}
+.l:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ttl{position:absolute;left:0;right:0;text-align:center;font-weight:600;font-size:13px;color:var(--sub);pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 90px}
+.mw.front .ttl{color:var(--ink)}
+.mw-body{flex:1;min-height:0;overflow:auto;padding:22px 26px 30px;outline:none;overscroll-behavior:contain}
+.mac .view h2{font-size:28px;letter-spacing:-.02em;margin:0 0 4px}
+.mac .eyebrow{font-size:11px;color:var(--amber);letter-spacing:.08em}
+.mac .facts div,.mac .hob>li{background:var(--card);border-radius:10px}
+.mac .chips li{border-radius:6px;background:var(--card);border-color:var(--line)}
+.mac .status{border-radius:6px;padding:2px 8px;color:var(--ink)}
+.mac .btn{border-radius:8px;background:var(--accent);color:#fff}.mac .btn:hover{background:#0062d6;color:#fff}
+.mac .btn+.btn{background:none;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.mac .rows a{text-decoration-color:var(--accent);color:var(--ink)}.mac .rows a:hover{background:none;color:var(--accent)}
+.mac .empty-work{border:1.5px dashed var(--line);border-radius:10px}
+/* proje penceresi */
+.proj header{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.proj .pi{width:64px;height:64px;flex:none}.proj .pi svg{width:100%;height:100%;filter:drop-shadow(0 3px 5px rgba(0,0,0,.2))}
+.proj h2{margin:0 0 4px!important}
+/* proje klasoru: Finder gibi simge izgarasi */
+.finder .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-bottom:12px}
+.finder .ico .n{color:var(--ink);text-shadow:none}
+.finder .ico:hover .i{background:rgba(0,0,0,.06)}.mac.dark .finder .ico:hover .i{background:rgba(255,255,255,.08)}
+.finder .grp:first-child{margin-top:0}
+/* terminal penceresi (yetenekler) */
+.term-w{background:#1b1b1e}
+.term-w .mw-bar{background:#2a2a2e;border-bottom-color:#111}.term-w .ttl{color:#c9c9cf}.term-w.front .ttl{color:#ececf0}
+.term-w .mw-body{padding:16px 18px 24px}
+.term{font:13px/1.65 ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:#e6e6ea}
+.term p{margin:0}
+.term .pr{color:#7ee08a}.term .dim{color:#8a8a93;margin-bottom:10px}
+.term .k{color:#7cc4ff;font-weight:700}
+.term .items{display:flex;flex-wrap:wrap;gap:4px 16px;padding-left:18px;margin-bottom:10px}
+.term .cur{display:inline-block;width:8px;height:15px;background:#e6e6ea;vertical-align:-3px;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+/* bilgisayara girerken masaustu ekrandan buyuyerek gelir */
+#screen.dive .mac{animation:boot .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes boot{from{opacity:0;transform:scale(1.04)}}
+/* telefon: simgeler ustte izgara, pencereler tam ekran, dock kaydirilir */
+@media (max-width:699px){
+  .menubar .menus,.menubar .sys{display:none}
+  .menubar{gap:10px;height:auto;min-height:30px}
+  .desk{left:12px;right:12px;top:calc(46px + env(safe-area-inset-top));bottom:auto;direction:ltr;grid-auto-flow:row;grid-template-columns:repeat(4,1fr);grid-template-rows:none;grid-auto-rows:96px}
+  .wins{top:calc(30px + env(safe-area-inset-top));bottom:calc(78px + env(safe-area-inset-bottom))}
+  .mac.solo .wins{top:0;bottom:0}
+  .mw{left:0!important;top:0!important;width:100%!important;height:100%!important;border-radius:0}
+  .mac:not(.solo) .mw{border-radius:12px 12px 0 0}
+  .dk{width:46px!important}
+  .dk[data-open^="p:"],.sep{display:none}
+  .mw-body{padding:18px 18px 28px}
+}
+
+.mac{background-size:cover;background-position:center}
+.menubar{color:#f4f4f6;background:rgba(28,28,32,.35)}
+.menubar .lng:hover,.menubar .exit:hover{background:rgba(255,255,255,.14)}
+/* terminal: hazir komut dugmeleri + yazma satiri */
+.term .out .blk{margin-bottom:10px}
+.term .big{font-size:18px;font-weight:700;color:#fff}
+.term .hl{display:flex;gap:14px}.term .hl .k{min-width:120px}
+.term .err{color:#ff7b72}
+.term a{color:#7cc4ff}
+.term .lk{background:none;border:0;padding:0;color:#7cc4ff;font:inherit;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.term .in{display:flex;align-items:center;gap:8px;margin-top:4px}
+.term .in input{flex:1;min-width:0;background:none;border:0;outline:none;color:#fff;font:inherit;caret-color:#7ee08a;padding:2px 0}
+.term .cmds{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid #2e2e33}
+.term .cmds button{font:12px ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:#e6e6ea;background:#2a2a2f;border:1px solid #3a3a40;border-radius:6px;padding:5px 9px;cursor:pointer}
+.term .cmds button:hover{background:#34343a;border-color:#7ee08a;color:#7ee08a}
+.trashv{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding-top:10px;color:var(--sub)}.trashv svg{width:72px}
+/* menu cubugu dugmeleri ve acilir menu */
+.menubar .menus{gap:2px}
+.menubar .mi,.menubar .logo{background:none;border:0;padding:3px 8px;border-radius:5px;cursor:default;font-size:13px;line-height:1}
+.menubar .logo{display:flex;align-items:center;padding:4px 8px;cursor:default}
+.menubar .mi.act,.menubar .logo.act,.menubar .mi:hover,.menubar .logo:hover{background:rgba(255,255,255,.18)}
+.dd{position:absolute;top:26px;z-index:50;min-width:220px;padding:5px;border-radius:9px;background:rgba(242,242,245,.86);-webkit-backdrop-filter:blur(30px) saturate(1.8);backdrop-filter:blur(30px) saturate(1.8);box-shadow:0 0 0 .5px rgba(0,0,0,.25),0 12px 34px rgba(0,0,0,.3);color:#1d1d1f;font-size:13px}
+.mac.dark .dd{background:rgba(42,42,46,.86);color:#f2f2f4;box-shadow:0 0 0 .5px rgba(255,255,255,.15),0 12px 34px rgba(0,0,0,.5)}
+.dd button{display:block;width:100%;text-align:left;background:none;border:0;padding:5px 10px;border-radius:5px;cursor:default;font-size:13px}
+.dd button:hover:not(:disabled),.dd button:focus-visible{background:var(--accent);color:#fff;outline:none}
+.dd button:disabled{opacity:.4}
+.dd hr{border:0;border-top:1px solid rgba(0,0,0,.12);margin:5px 6px}.mac.dark .dd hr{border-color:rgba(255,255,255,.14)}
+/* "Bu Mac hakkinda" */
+.sysv{text-align:center}.sysv img{width:96px;height:96px;object-fit:cover;object-position:50% 20%;border-radius:50%;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.sysv h2{margin:12px 0 2px!important;font-size:24px!important}.sysv .dim{color:var(--sub);margin:0 0 16px!important}
+.sysv dl{margin:0;text-align:left;font-size:13px}.sysv dl div{display:flex;gap:12px;padding:4px 0}.sysv dt{width:110px;flex:none;text-align:right;color:var(--sub)}.sysv dd{margin:0;font-weight:600}
+/* terminal satirlari tek tek gelir */
+.term .wait{display:none}
+.term .show{animation:tline .12s ease-out}
+@keyframes tline{from{opacity:0;transform:translateY(2px)}}
+/* dock: etiket yok, buyutme yumusak; simgeler yalnizca kendi ustune tiklaninca acilir */
+.dk .tip{display:none}
+.dock .dk{transition:width .18s cubic-bezier(.2,.8,.2,1)}
+.dock.mag .dk{transition:width .06s linear}
+.desk .ico,.finder .ico{pointer-events:none}
+.desk .ico .i,.desk .ico .n,.finder .ico .i,.finder .ico .n{pointer-events:auto;cursor:pointer}
+.ico .n{display:inline-block}
+/* dock (macOS gibi): cubugun yuksekligi sabit kalir; simge yukari dogru buyur, yanlara dogru yer acar */
+.dock-in{overflow:visible;height:66px;box-sizing:border-box;align-items:flex-end}
+.dk{height:50px;width:calc(50px * var(--s))}
+.dk .i{position:absolute;left:50%;bottom:0;width:calc(50px * var(--s));height:calc(50px * var(--s));transform:translateX(-50%);transition:width .18s cubic-bezier(.2,.8,.2,1),height .18s cubic-bezier(.2,.8,.2,1)}
+.dock.mag .dk .i{transition:width .06s linear,height .06s linear}
+.dk.hop .i{animation:hop2 .5s ease-out}
+@keyframes hop2{30%{transform:translate(-50%,-14px)}60%{transform:translate(-50%,0)}80%{transform:translate(-50%,-4px)}}
+@media (max-width:699px){.dock-in{overflow-x:auto;overflow-y:hidden;height:auto}.dk{height:46px}.dk .i{position:static;transform:none;width:100%;height:100%}}
+.mw.dragging{will-change:translate;transition:none;user-select:none;-webkit-user-select:none}
+.mw.dragging .mw-body{pointer-events:none}
+/* Mac hissi: ok imleci, simgeden buyuyerek acilan pencere, kose tutamagi, secim kutusu */
+.mac,.mac button,.mac .ico .i,.mac .ico .n,.mac .dk,.mac .mw-bar{cursor:default}
+.mac a{cursor:pointer}
+.mw.grow{transition:transform .3s cubic-bezier(.2,.85,.25,1),opacity .2s}
+.rz{position:absolute;right:0;bottom:0;width:16px;height:16px;cursor:nwse-resize;z-index:2}
+.mw.max .rz{display:none}
+.band{position:absolute;z-index:3;border:1px solid rgba(160,190,255,.85);background:rgba(120,160,255,.18);border-radius:2px;pointer-events:none}
+.mac.dragging .mw:not(.dragging){pointer-events:none}
+@media (max-width:699px){.rz{display:none}}
+@media (max-width:699px){.menubar .exit{white-space:nowrap}.menubar .clock .d{display:none}.menubar{gap:8px}.menubar .app{max-width:34vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
