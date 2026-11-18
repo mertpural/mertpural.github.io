@@ -68,8 +68,8 @@ export function initUI(o){
     skills:{icon:ICON.terminal,desk:ICON.terminal,name:()=>L().skills,alias:'terminal',run:'/skills'},
     hobbies:{icon:ICON.games,desk:ICON.games,name:()=>L().hobbies,w:620,h:460,render:()=>`<p class="eyebrow">${esc(L().hobbies)}</p><p>${esc(t(HOBBIES.lead))}</p><ul class="hob">${HOBBIES.items.map(h=>`<li><h3>${esc(t(h.title))}</h3><p>${esc(t(h.text))}</p>${h.tags?`<ul class="chips tags">${h.tags.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}</li>`).join('')}</ul>`},
     contact:{icon:ICON.mail,desk:ICON.mail,name:()=>L().contact,w:480,h:330,render:()=>`<p class="eyebrow">${esc(L().contact)}</p><p>${esc(L().contactLead)}</p><ul class="rows">${CONTACT.map(c=>`<li><span>${esc(t(c.label))}</span><a href="${esc(c.href)}"${c.href.startsWith('http')?' target="_blank" rel="noopener"':''}>${esc(c.text)}</a></li>`).join('')}</ul>`},
-    sys:{icon:ICON.notes,name:()=>tr()?'Bu Mac hakkında':'About This Mac',w:380,h:430,render:()=>`<div class="sysv"><img src="assets/portrait.png" alt=""><h2>MertOS</h2><p class="dim">${tr()?'Sürüm 1.0 · İstanbul':'Version 1.0 · Istanbul'}</p><dl>${[[tr()?'Kullanıcı':'User',SITE.name],[tr()?'Model':'Model',t(SITE.role)],[tr()?'Çip':'Chip','TypeScript + React'],[tr()?'Bellek':'Memory',tr()?'Çok kahve':'Lots of coffee'],[tr()?'Ekran':'Display',tr()?'Piksel oda, 4 farklı ışık':'Pixel room, 4 lightings'],[tr()?'Evcil hayvan':'Pet','Meowly']].map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl></div>`},
-    trash:{icon:ICON.trash,name:()=>lang==='tr'?'Çöp Kutusu':'Trash',w:420,h:280,render:()=>`<div class="trashv">${ICON.trash()}<p>${lang==='tr'?'Çöp kutusu boş. Yarım kalan projeler de burada değil, rafta bekliyor.':'The trash is empty. Unfinished projects are not here either; they wait on the shelf.'}</p></div>`},
+    sys:{icon:ICON.notes,name:()=>tr()?'Bu Mac hakkında':'About This Mac',w:380,h:430,render:()=>`<div class="sysv"><img src="assets/portrait.png" alt=""><h2>MertOS</h2><p class="dim">${tr()?'Sürüm 1.0 · İstanbul':'Version 1.0 · Istanbul'}</p><dl>${[[tr()?'Kullanıcı':'User',SITE.name],[tr()?'Model':'Model',t(SITE.role)],[tr()?'Evcil hayvan':'Pet','Meowly']].map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl></div>`},
+    trash:{icon:ICON.trash,name:()=>lang==='tr'?'Çöp Kutusu':'Trash',w:420,h:280,render:()=>`<div class="trashv">${ICON.trash()}<p>${lang==='tr'?'Çöp kutusu boş.':'The trash is empty.'}</p></div>`},
     where:{icon:ICON.map,desk:ICON.map,name:()=>L().whereCity,title:()=>L().whereTitle,w:420,h:300,render:()=>`<p class="eyebrow">${esc(L().whereTitle)}</p><h2>${esc(L().whereCity)}</h2><p class="role">${esc(L().whereCountry)}</p><p>${esc(L().whereText)}</p>`},
   };
   for(const p of [...PROJECTS,...WORK])APPS['p:'+p.id]={icon:()=>picon(p.id),name:()=>p.name,w:580,h:520,render:()=>project(p)};
@@ -95,8 +95,8 @@ export function initUI(o){
       case 'contact':case 'iletisim':case 'iletişim':return CONTACT.map(x=>line(t(x.label).toLowerCase()+':',`<a href="${esc(x.href)}"${x.href.startsWith('http')?' target="_blank" rel="noopener"':''}>${esc(x.text)}</a>`)).join('');
       case 'where':case 'nerede':return `<p>📍 ${esc(L().whereCity)}, ${esc(L().whereCountry)}</p><p class="dim">${esc(L().whereText)}</p>`;
       case 'open':case 'ac':case 'aç':{const id=APPS[arg]?arg:APPS['p:'+arg]?'p:'+arg:null;if(id){setTimeout(()=>openApp(id),60);return `<p class="dim">${tr()?'açılıyor':'opening'} ${esc(arg)}…</p>`;}return `<p class="err">${tr()?'böyle bir uygulama yok':'no such app'}: ${esc(arg||'?')}</p>`;}
-      case 'sudo':return `<p class="err">${tr()?'Bu bilgisayarın yöneticisi Mert. İyi deneme ama 🙂':'Mert is the admin here. Nice try though 🙂'}</p>`;
-      case 'meow':case 'cat':case 'meowly':return `<p>${tr()?'Meowly şu an odada, topla bitkinin arasında. Onu sevmeyi unutma.':'Meowly is in the room, between the ball and the plant. Do pet it.'}</p>`;
+      case 'sudo':return `<p class="err">${tr()?'Bu komutu çalıştırma iznin yok.':'You don\'t have permission to run this command.'}</p>`;
+      case 'meow':case 'cat':case 'meowly':return `<p>${tr()?'Meowly odada, topla bitkinin arasında oturuyor.':'Meowly is in the room, sitting between the ball and the plant.'}</p>`;
       default:return `<p class="err">${tr()?'komut bulunamadı':'command not found'}: ${esc(c0)}</p><p class="dim">${tr()?'/help yazarak komutları görebilirsin.':'Type /help to see the commands.'}</p>`;
     }
   }
@@ -117,7 +117,7 @@ export function initUI(o){
       typeOut(blk,body);
     };
     w._run=run;
-    out.innerHTML=`<div class="blk"><p class="dim">${tr()?'Merhaba! Aşağıdaki komutlardan birine tıkla ya da yaz.':'Hi! Click one of the commands below or type one.'}</p><p class="dim">${tr()?'Tüm komutlar için /help':'All commands: /help'}</p></div>`;typeOut(out.firstChild,w.querySelector('.mw-body'));
+    out.innerHTML=`<div class="blk"><p class="dim">${tr()?'Aşağıdaki komutlardan birine tıkla ya da bir komut yaz.':'Click one of the commands below or type one.'}</p><p class="dim">${tr()?'Tüm komutlar için /help':'All commands: /help'}</p></div>`;typeOut(out.firstChild,w.querySelector('.mw-body'));
     form.addEventListener('submit',e=>{e.preventDefault();const v=inp.value;inp.value='';run(v);});
     inp.addEventListener('keydown',e=>{if(e.key==='ArrowUp'&&hist.length){hi=Math.max(0,hi-1);inp.value=hist[hi];e.preventDefault();}else if(e.key==='ArrowDown'){hi=Math.min(hist.length,hi+1);inp.value=hist[hi]||'';e.preventDefault();}});
     w.querySelector('.cmds').addEventListener('click',e=>{const b=e.target.closest('[data-cmd]');if(b){run(b.dataset.cmd);if(!small())inp.focus({preventScroll:true});}});
